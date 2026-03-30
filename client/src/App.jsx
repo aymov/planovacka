@@ -972,7 +972,7 @@ function Inner() {
         <tr key={emp.n} className="er">
           <td onContextMenu={function(e) { e.preventDefault(); setRoleMenu({ x: e.clientX, y: e.clientY, emp: emp.n, cur: emp.r }); }}
             onMouseEnter={function() { setHoverCell(emp.n + "|-1"); }}
-            style={{ padding: "0 12px", position: "sticky", left: 0, zIndex: 10, background: (hoverCell && hoverCell.split("|")[0] === emp.n) ? (dark ? "rgba(255,255,255,0.06)" : "#E8E8ED") : dark ? "rgba(255,255,255,0.02)" : "#F4F4F7", borderLeft: "3px solid " + ri.c, cursor: "context-menu", borderRadius: 8, height: 42, verticalAlign: "middle", border: "none" }}>
+            style={{ padding: "0 12px", position: "sticky", left: 0, zIndex: 10, background: (hoverCell && hoverCell.split("|")[0] === emp.n) ? (dark ? "#1a1a1f" : "#E8E8ED") : dark ? "#0c0c0e" : "#F4F4F7", borderLeft: "3px solid " + ri.c, cursor: "context-menu", borderRadius: 8, height: 42, verticalAlign: "middle", border: "none" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <span style={{ fontSize: 12, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{emp.n}</span>
               <span style={{ fontSize: 10, fontWeight: 600, color: l === 0 ? t.t4 : l >= 13 ? t.dn : l >= 9 ? t.wn : t.t3, flexShrink: 0 }}>{l}</span>
@@ -1075,7 +1075,7 @@ function Inner() {
           </colgroup>
           <thead>
             <tr>
-              <th rowSpan={2} style={{ position: "sticky", top: 0, zIndex: 20, background: t.bg, border: "none", padding: "4px 6px", verticalAlign: "middle" }}>
+              <th rowSpan={2} style={{ position: "sticky", top: 0, left: 0, zIndex: 30, background: t.bg, border: "none", padding: "4px 6px", verticalAlign: "middle" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
                   <button onClick={function() { setWk(addD(wk, -7)); }} style={B({ padding: "3px 6px", fontSize: 11 })}>‹</button>
                   <div style={{ textAlign: "center", flex: 1, minWidth: 0 }}>
