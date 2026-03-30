@@ -970,7 +970,7 @@ function Inner() {
 
       rows.push(
         <tr key={emp.n} className="er">
-          <td onContextMenu={function(e) { e.preventDefault(); setRoleMenu({ x: e.clientX, y: e.clientY, emp: emp.n, cur: emp.r }); }}
+          <td className="emp-name" onContextMenu={function(e) { e.preventDefault(); setRoleMenu({ x: e.clientX, y: e.clientY, emp: emp.n, cur: emp.r }); }}
             onMouseEnter={function() { setHoverCell(emp.n + "|-1"); }}
             style={{ padding: "0 12px", position: "sticky", left: 0, zIndex: 10, background: (hoverCell && hoverCell.split("|")[0] === emp.n) ? (dark ? "#1a1a1f" : "#E8E8ED") : dark ? "#0c0c0e" : "#F4F4F7", borderLeft: "3px solid " + ri.c, cursor: "context-menu", borderRadius: 8, height: 42, verticalAlign: "middle", border: "none" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -1075,7 +1075,7 @@ function Inner() {
           </colgroup>
           <thead>
             <tr>
-              <th rowSpan={2} style={{ position: "sticky", top: 0, left: 0, zIndex: 30, background: t.bg, border: "none", padding: "4px 6px", verticalAlign: "middle" }}>
+              <th className="week-nav" rowSpan={2} style={{ position: "sticky", top: 0, left: 0, zIndex: 30, background: t.bg, border: "none", padding: "4px 6px", verticalAlign: "middle" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
                   <button onClick={function() { setWk(addD(wk, -7)); }} style={B({ padding: "3px 6px", fontSize: 11 })}>‹</button>
                   <div style={{ textAlign: "center", flex: 1, minWidth: 0 }}>
@@ -1300,6 +1300,8 @@ function Inner() {
         "td { user-select: none; }" +
         "@media (max-width: 768px) {" +
         "  .cell-td:hover { transform: none !important; }" +
+        "  .emp-name { position: static !important; }" +
+        "  .week-nav { position: static !important; }" +
         "}"
       }</style>
     </div>
