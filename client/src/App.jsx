@@ -1003,8 +1003,8 @@ function Inner() {
         </div>
       </div>
 
-      {/* CLIENT BAR */}
-      <div style={{ padding: "8px 12px", flexShrink: 0, background: t.gl, backdropFilter: "blur(40px)", borderBottom: "1px solid " + t.gB, display: "flex", gap: 5, flexWrap: "nowrap", alignItems: "center", overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+      {/* CLIENT BAR - Row 1: Clients */}
+      <div style={{ padding: "6px 12px", flexShrink: 0, background: t.gl, backdropFilter: "blur(40px)", display: "flex", gap: 5, flexWrap: "nowrap", alignItems: "center", overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         {cliFilter && <button onClick={function() { setCliFilter(null); }} style={B({ fontSize: 10, padding: "4px 10px", color: t.dn, border: "1px solid " + t.dn + "40" })}>Clear filter</button>}
         {CL.map(function(c) {
           var s = sel && sel.n === c.n;
@@ -1017,7 +1017,9 @@ function Inner() {
             {c.n}
           </button>;
         })}
-        <div style={{ height: 20, width: 1, background: t.sB, flexShrink: 0 }} />
+      </div>
+      {/* CONTROLS BAR - Row 2: Search, filters, HO, Dov, Undo */}
+      <div style={{ padding: "4px 12px", flexShrink: 0, background: t.gl, backdropFilter: "blur(40px)", borderBottom: "1px solid " + t.gB, display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
         <input value={srch} onChange={function(e) { setSrch(e.target.value); }} placeholder="Hledat..." style={{ background: t.sf, border: "1px solid " + t.sB, borderRadius: 8, color: t.tx, fontSize: 11, fontFamily: "inherit", outline: "none", width: 120, padding: "5px 10px", flexShrink: 0 }} />
         <div style={{ display: "flex", gap: 2, flexShrink: 0 }}>
           {Object.entries(RO).map(function(entry) {
@@ -1026,17 +1028,17 @@ function Inner() {
             return <button key={r} onClick={function() { setFR(on ? null : r); }} style={{ padding: "3px 8px", borderRadius: 6, fontSize: 9, fontWeight: 500, fontFamily: "inherit", cursor: "pointer", border: on ? "1px solid " + info.c : "1px solid transparent", background: on ? "rgba(" + rg(info.c) + ",0.12)" : "transparent", color: on ? info.c : t.t4 }}>{info.e}</button>;
           })}
         </div>
-        <div style={{ height: 20, width: 1, background: t.sB, flexShrink: 0 }} />
-        <button onClick={function() { setHoMode(!hoMode); if (!hoMode) { setSel(null); setVacMode(false); } }} style={{ padding: "5px 10px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: hoMode ? t.aB : "transparent", color: hoMode ? t.aT : t.t3, border: hoMode ? "1px solid " + t.ac + "40" : "1px solid transparent", borderRadius: 10, cursor: "pointer", fontFamily: "inherit", fontSize: 13, fontWeight: 500, transition: "all 0.2s" }} title="Homeoffice rezim">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 8l6-6 6 6M3 7v6a1 1 0 001 1h3v-4h2v4h3a1 1 0 001-1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        <div style={{ height: 16, width: 1, background: t.sB, flexShrink: 0 }} />
+        <button onClick={function() { setHoMode(!hoMode); if (!hoMode) { setSel(null); setVacMode(false); } }} style={{ padding: "4px 8px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: hoMode ? t.aB : "transparent", color: hoMode ? t.aT : t.t3, border: hoMode ? "1px solid " + t.ac + "40" : "1px solid transparent", borderRadius: 8, cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: 500, transition: "all 0.2s" }} title="Homeoffice rezim">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M2 8l6-6 6 6M3 7v6a1 1 0 001 1h3v-4h2v4h3a1 1 0 001-1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           <span style={{ fontSize: 10, fontWeight: 500 }}>HO</span>
         </button>
-        <button onClick={function() { setVacMode(!vacMode); if (!vacMode) { setSel(null); setHoMode(false); } }} style={{ padding: "5px 10px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: vacMode ? "rgba(" + rg(t.wn) + ",0.15)" : "transparent", color: vacMode ? t.wn : t.t3, border: vacMode ? "1px solid " + t.wn + "40" : "1px solid transparent", borderRadius: 10, cursor: "pointer", fontFamily: "inherit", fontSize: 13, fontWeight: 500, transition: "all 0.2s" }} title="Dovolenka rezim">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3.5" stroke="currentColor" strokeWidth="1.5"/><path d="M8 8.5V14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M5 14h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+        <button onClick={function() { setVacMode(!vacMode); if (!vacMode) { setSel(null); setHoMode(false); } }} style={{ padding: "4px 8px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: vacMode ? "rgba(" + rg(t.wn) + ",0.15)" : "transparent", color: vacMode ? t.wn : t.t3, border: vacMode ? "1px solid " + t.wn + "40" : "1px solid transparent", borderRadius: 8, cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: 500, transition: "all 0.2s" }} title="Dovolenka rezim">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3.5" stroke="currentColor" strokeWidth="1.5"/><path d="M8 8.5V14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M5 14h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
           <span style={{ fontSize: 10, fontWeight: 500 }}>Dov</span>
         </button>
-        <button onClick={pop} style={{ padding: "5px 10px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: "transparent", color: t.t3, border: "1px solid transparent", borderRadius: 10, cursor: "pointer", fontFamily: "inherit", fontSize: 13, fontWeight: 500, transition: "all 0.2s" }} title="Zpet (Ctrl+Z)">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 6h7a3 3 0 110 6H8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M6 3L3 6l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        <button onClick={pop} style={{ padding: "4px 8px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: "transparent", color: t.t3, border: "1px solid transparent", borderRadius: 8, cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: 500, transition: "all 0.2s" }} title="Zpet (Ctrl+Z)">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 6h7a3 3 0 110 6H8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M6 3L3 6l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
         </button>
       </div>
 
