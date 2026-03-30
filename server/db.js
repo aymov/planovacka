@@ -3,7 +3,9 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const db = new Database(join(__dirname, 'planovacka.db'));
+// Use RAILWAY_VOLUME_MOUNT_PATH for persistent storage, fallback to local
+const dbDir = process.env.RAILWAY_VOLUME_MOUNT_PATH || __dirname;
+const db = new Database(join(dbDir, 'planovacka.db'));
 
 db.pragma('journal_mode = WAL');
 

@@ -955,6 +955,9 @@ function Inner() {
               <span style={{ fontSize: 12, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{emp.n}</span>
               <span style={{ fontSize: 10, fontWeight: 600, color: l === 0 ? t.t4 : l >= 13 ? t.dn : l >= 9 ? t.wn : t.t3, flexShrink: 0 }}>{l}</span>
             </div>
+            <div style={{ height: 3, borderRadius: 2, background: t.sf, marginTop: 2 }}>
+              <div style={{ height: "100%", borderRadius: 2, width: (pct * 100) + "%", background: l >= 13 ? t.dn : l >= 9 ? t.wn : t.ac, transition: "width 0.3s ease", opacity: l === 0 ? 0 : 0.7 }} />
+            </div>
           </td>
           {renderDayCells(emp)}
         </tr>
@@ -969,7 +972,7 @@ function Inner() {
 
 
       {/* HEADER */}
-      <div style={{ padding: "0 24px", height: 48, flexShrink: 0, background: t.gl, backdropFilter: "blur(40px) saturate(1.5)", borderBottom: "1px solid " + t.gB, display: "flex", alignItems: "center", gap: 16 }}>
+      <div style={{ padding: "0 12px", height: 48, flexShrink: 0, background: t.gl, backdropFilter: "blur(40px) saturate(1.5)", borderBottom: "1px solid " + t.gB, display: "flex", alignItems: "center", gap: 8, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 28, height: 28, borderRadius: 8, background: t.tx, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, color: t.bg }}>P</div>
           <span style={{ fontWeight: 600, fontSize: 14, letterSpacing: "-0.02em", color: t.tx }}>Plánovačka</span>
@@ -1001,7 +1004,7 @@ function Inner() {
       </div>
 
       {/* CLIENT BAR */}
-      <div style={{ padding: "8px 24px", flexShrink: 0, background: t.gl, backdropFilter: "blur(40px)", borderBottom: "1px solid " + t.gB, display: "flex", gap: 5, flexWrap: "wrap", alignItems: "center" }}>
+      <div style={{ padding: "8px 12px", flexShrink: 0, background: t.gl, backdropFilter: "blur(40px)", borderBottom: "1px solid " + t.gB, display: "flex", gap: 5, flexWrap: "nowrap", alignItems: "center", overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         {cliFilter && <button onClick={function() { setCliFilter(null); }} style={B({ fontSize: 10, padding: "4px 10px", color: t.dn, border: "1px solid " + t.dn + "40" })}>Clear filter</button>}
         {CL.map(function(c) {
           var s = sel && sel.n === c.n;
@@ -1009,7 +1012,7 @@ function Inner() {
           return <button key={c.n}
             onClick={function() { setSel(s ? null : c); setHoMode(false); setVacMode(false); }}
             onDoubleClick={function(e) { e.stopPropagation(); setCliFilter(f ? null : c.n); }}
-            style={{ padding: "5px 14px 5px 5px", borderRadius: 50, cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 8, border: s ? "2px solid " + c.c : "2px solid " + (f ? c.c + "60" : "transparent"), background: s ? "rgba(" + rg(c.c) + ",0.22)" : f ? "rgba(" + rg(c.c) + ",0.12)" : "rgba(" + rg(c.c) + ",0.08)", color: s ? c.c : t.tx, boxShadow: s ? "0 0 0 3px rgba(" + rg(c.c) + ",0.15), 0 2px 8px rgba(" + rg(c.c) + ",0.1)" : "none", opacity: cliFilter && !f && !s ? 0.3 : 1 }}>
+            style={{ padding: "5px 14px 5px 5px", borderRadius: 50, cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 8, flexShrink: 0, whiteSpace: "nowrap", border: s ? "2px solid " + c.c : "2px solid " + (f ? c.c + "60" : "transparent"), background: s ? "rgba(" + rg(c.c) + ",0.22)" : f ? "rgba(" + rg(c.c) + ",0.12)" : "rgba(" + rg(c.c) + ",0.08)", color: s ? c.c : t.tx, boxShadow: s ? "0 0 0 3px rgba(" + rg(c.c) + ",0.15), 0 2px 8px rgba(" + rg(c.c) + ",0.1)" : "none", opacity: cliFilter && !f && !s ? 0.3 : 1 }}>
             <span style={{ width: 28, height: 28, borderRadius: 50, background: s ? c.c : "rgba(" + rg(c.c) + ",0.25)", color: s ? (dark ? "#111" : "#fff") : c.c, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 700, flexShrink: 0, letterSpacing: "0.02em", transition: "all 0.15s" }}>{c.i || c.n.slice(0, 2)}</span>
             {c.n}
           </button>;
@@ -1024,15 +1027,15 @@ function Inner() {
           })}
         </div>
         <div style={{ height: 20, width: 1, background: t.sB, flexShrink: 0 }} />
-        <button onClick={function() { setHoMode(!hoMode); if (!hoMode) { setSel(null); setVacMode(false); } }} style={B({ padding: "5px 10px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: hoMode ? t.aB : undefined, color: hoMode ? t.aT : t.t2, border: hoMode ? "1px solid " + t.ac + "40" : "1px solid " + t.sB })} title="Homeoffice rezim">
+        <button onClick={function() { setHoMode(!hoMode); if (!hoMode) { setSel(null); setVacMode(false); } }} style={{ padding: "5px 10px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: hoMode ? t.aB : "transparent", color: hoMode ? t.aT : t.t3, border: hoMode ? "1px solid " + t.ac + "40" : "1px solid transparent", borderRadius: 10, cursor: "pointer", fontFamily: "inherit", fontSize: 13, fontWeight: 500, transition: "all 0.2s" }} title="Homeoffice rezim">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 8l6-6 6 6M3 7v6a1 1 0 001 1h3v-4h2v4h3a1 1 0 001-1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           <span style={{ fontSize: 10, fontWeight: 500 }}>HO</span>
         </button>
-        <button onClick={function() { setVacMode(!vacMode); if (!vacMode) { setSel(null); setHoMode(false); } }} style={B({ padding: "5px 10px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: vacMode ? "rgba(" + rg(t.wn) + ",0.15)" : undefined, color: vacMode ? t.wn : t.t2, border: vacMode ? "1px solid " + t.wn + "40" : "1px solid " + t.sB })} title="Dovolenka rezim">
+        <button onClick={function() { setVacMode(!vacMode); if (!vacMode) { setSel(null); setHoMode(false); } }} style={{ padding: "5px 10px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: vacMode ? "rgba(" + rg(t.wn) + ",0.15)" : "transparent", color: vacMode ? t.wn : t.t3, border: vacMode ? "1px solid " + t.wn + "40" : "1px solid transparent", borderRadius: 10, cursor: "pointer", fontFamily: "inherit", fontSize: 13, fontWeight: 500, transition: "all 0.2s" }} title="Dovolenka rezim">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3.5" stroke="currentColor" strokeWidth="1.5"/><path d="M8 8.5V14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M5 14h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
           <span style={{ fontSize: 10, fontWeight: 500 }}>Dov</span>
         </button>
-        <button onClick={pop} style={B({ padding: "5px 10px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0 })} title="Zpet (Ctrl+Z)">
+        <button onClick={pop} style={{ padding: "5px 10px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: "transparent", color: t.t3, border: "1px solid transparent", borderRadius: 10, cursor: "pointer", fontFamily: "inherit", fontSize: 13, fontWeight: 500, transition: "all 0.2s" }} title="Zpet (Ctrl+Z)">
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 6h7a3 3 0 110 6H8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M6 3L3 6l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
         </button>
       </div>
@@ -1041,9 +1044,9 @@ function Inner() {
 
       {/* TABLE HEADER - fixed */}
       <div style={{ padding: "0 16px", flexShrink: 0, borderBottom: "1px solid " + t.gB }}>
-        <table style={{ borderCollapse: "separate", borderSpacing: "3px 3px", width: "100%", minWidth: 1200, tableLayout: "fixed" }}>
+        <table style={{ borderCollapse: "separate", borderSpacing: "3px 3px", width: "100%", minWidth: 900, tableLayout: "fixed" }}>
           <colgroup>
-            <col style={{ width: 200 }} />
+            <col style={{ width: 140 }} />
             {headerCols()}
           </colgroup>
           <thead>
@@ -1070,9 +1073,9 @@ function Inner() {
 
       {/* TABLE BODY - scrollable */}
       <div style={{ flex: 1, overflow: "auto", padding: "0 16px 60px" }}>
-        <table onMouseLeave={function() { setHoverCell(null); }} style={{ borderCollapse: "separate", borderSpacing: "3px 3px", width: "100%", minWidth: 1200, tableLayout: "fixed" }}>
+        <table onMouseLeave={function() { setHoverCell(null); }} style={{ borderCollapse: "separate", borderSpacing: "3px 3px", width: "100%", minWidth: 900, tableLayout: "fixed" }}>
           <colgroup>
-            <col style={{ width: 200 }} />
+            <col style={{ width: 140 }} />
             {headerCols()}
           </colgroup>
           <tbody>
@@ -1280,7 +1283,10 @@ function Inner() {
         ".cell-td { position: relative; }" +
         ".cell-td:hover { transform: scale(1.02); z-index: 5; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }" +
         ".ci:hover { background: " + t.sH + " !important; }" +
-        "td { user-select: none; }"
+        "td { user-select: none; }" +
+        "@media (max-width: 768px) {" +
+        "  .cell-td:hover { transform: none !important; }" +
+        "}"
       }</style>
     </div>
   );
