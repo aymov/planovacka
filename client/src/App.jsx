@@ -930,8 +930,8 @@ function Inner() {
   function headerDays() {
     var r = [];
     for (var di = 0; di < 5; di++) {
-      r.push(<th key={"hd" + di} colSpan={5} style={{ padding: "8px 4px", textAlign: "center", fontSize: 12, fontWeight: 700, background: isN(di) ? t.tH : dark ? t.bg : "#F4F4F7", color: isN(di) ? t.aT : t.t2, borderBottom: isN(di) ? "2px solid " + t.tBd : "1px solid " + t.cB, borderRadius: 8 }}>{DY[di]} <span style={{ fontWeight: 400, opacity: 0.5 }}>{fD(addD(wk, di))}</span></th>);
-      if (di < 4) r.push(<th key={"hdg" + di} style={{ padding: 0, width: 10, background: dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.06)", borderRadius: 4 }} />);
+      r.push(<th key={"hd" + di} colSpan={5} style={{ position: "sticky", top: 0, zIndex: 20, padding: "8px 4px", textAlign: "center", fontSize: 12, fontWeight: 700, background: isN(di) ? (dark ? "rgba(129,140,248,0.08)" : t.tH) : t.bg, color: isN(di) ? t.aT : t.t2, borderBottom: isN(di) ? "2px solid " + t.tBd : "1px solid " + t.cB, borderRadius: 8 }}>{DY[di]} <span style={{ fontWeight: 400, opacity: 0.5 }}>{fD(addD(wk, di))}</span></th>);
+      if (di < 4) r.push(<th key={"hdg" + di} style={{ position: "sticky", top: 0, zIndex: 20, padding: 0, width: 10, background: t.bg, borderRadius: 4 }} />);
     }
     return r;
   }
@@ -940,10 +940,10 @@ function Inner() {
     var r = [];
     for (var di = 0; di < 5; di++) {
       for (var si = 0; si < 3; si++) {
-        r.push(<th key={"hs" + di + si} style={{ padding: "4px 2px", textAlign: "center", fontSize: 9, fontWeight: 500, color: t.t4, background: isN(di) ? t.tB : "transparent", borderBottom: "1px solid " + t.cB, borderRadius: 4 }}>{SL[si]}</th>);
-        if (si < 2) r.push(<th key={"hss" + di + si} style={{ width: 1, padding: 0, background: t.slS, borderRadius: 2 }} />);
+        r.push(<th key={"hs" + di + si} style={{ position: "sticky", top: 36, zIndex: 20, padding: "4px 2px", textAlign: "center", fontSize: 9, fontWeight: 500, color: t.t4, background: t.bg, borderBottom: "1px solid " + t.cB, borderRadius: 4 }}>{SL[si]}</th>);
+        if (si < 2) r.push(<th key={"hss" + di + si} style={{ position: "sticky", top: 36, zIndex: 20, width: 1, padding: 0, background: t.bg, borderRadius: 2 }} />);
       }
-      if (di < 4) r.push(<th key={"hsg" + di} style={{ width: 10, padding: 0, background: dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.06)", borderRadius: 4 }} />);
+      if (di < 4) r.push(<th key={"hsg" + di} style={{ position: "sticky", top: 36, zIndex: 20, width: 10, padding: 0, background: t.bg, borderRadius: 4 }} />);
     }
     return r;
   }
@@ -1056,7 +1056,7 @@ function Inner() {
           <span style={{ fontSize: 10, fontWeight: 500 }}>HO</span>
         </button>
         <button onClick={function() { setVacMode(!vacMode); if (!vacMode) { setSel(null); setHoMode(false); } }} style={{ padding: "4px 8px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: vacMode ? "rgba(" + rg(t.wn) + ",0.15)" : "transparent", color: vacMode ? t.wn : t.t3, border: vacMode ? "1px solid " + t.wn + "40" : "1px solid transparent", borderRadius: 8, cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: 500, transition: "all 0.2s" }} title="Dovolenka rezim">
-          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3.5" stroke="currentColor" strokeWidth="1.5"/><path d="M8 8.5V14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M5 14h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 3c-3 0-5.5 2-6 4h12c-.5-2-3-4-6-4z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M8 3v11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M5 14h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
           <span style={{ fontSize: 10, fontWeight: 500 }}>Dov</span>
         </button>
         <button onClick={pop} style={{ padding: "4px 8px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: "transparent", color: t.t3, border: "1px solid transparent", borderRadius: 8, cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: 500, transition: "all 0.2s" }} title="Zpet (Ctrl+Z)">
@@ -1066,16 +1066,16 @@ function Inner() {
 
 
 
-      {/* TABLE HEADER - fixed */}
-      <div style={{ padding: "0 16px", flexShrink: 0, borderBottom: "1px solid " + t.gB }}>
-        <table style={{ borderCollapse: "separate", borderSpacing: "3px 3px", width: "100%", minWidth: 900, tableLayout: "fixed" }}>
+      {/* TABLE - single scrollable container for header + body */}
+      <div style={{ flex: 1, overflow: "auto", padding: "0 16px 60px" }}>
+        <table onMouseLeave={function() { setHoverCell(null); }} style={{ borderCollapse: "separate", borderSpacing: "3px 3px", width: "100%", minWidth: 900, tableLayout: "fixed" }}>
           <colgroup>
             <col style={{ width: 140 }} />
             {headerCols()}
           </colgroup>
           <thead>
             <tr>
-              <th rowSpan={2} style={{ background: t.bg, border: "none", padding: "4px 6px", verticalAlign: "middle" }}>
+              <th rowSpan={2} style={{ position: "sticky", top: 0, zIndex: 20, background: t.bg, border: "none", padding: "4px 6px", verticalAlign: "middle" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
                   <button onClick={function() { setWk(addD(wk, -7)); }} style={B({ padding: "3px 6px", fontSize: 11 })}>‹</button>
                   <div style={{ textAlign: "center", flex: 1, minWidth: 0 }}>
@@ -1092,16 +1092,6 @@ function Inner() {
               {headerSlots()}
             </tr>
           </thead>
-        </table>
-      </div>
-
-      {/* TABLE BODY - scrollable */}
-      <div style={{ flex: 1, overflow: "auto", padding: "0 16px 60px" }}>
-        <table onMouseLeave={function() { setHoverCell(null); }} style={{ borderCollapse: "separate", borderSpacing: "3px 3px", width: "100%", minWidth: 900, tableLayout: "fixed" }}>
-          <colgroup>
-            <col style={{ width: 140 }} />
-            {headerCols()}
-          </colgroup>
           <tbody>
             {empRows()}
           </tbody>
