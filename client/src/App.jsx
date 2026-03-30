@@ -480,19 +480,35 @@ function Inner() {
     setCtx({ x: e.clientX, y: e.clientY, id: id, emp: id.split("|")[1] });
   }
 
+  // Track which slots are part of the edited merged group
+  const [edMergedIds, setEdMergedIds] = useState(null); // array of cell IDs in merged group
+
   function onDb(id) {
     setFoc(id);
     setEdC(id);
     var arr = cellArr(id);
     setEdT(arr.map(function(x) { return x.tk; }).join(" / "));
+    // Find all slots in this merged group
+    var parts = id.split("|");
+    var empN = parts[1], di = parseInt(parts[2]);
+    var ids = [];
+    for (var s = 0; s < 3; s++) {
+      var sid = cI(w, empN, di, s);
+      var sArr = cellArr(sid);
+      if (sArr.length === arr.length) {
+        var same = true;
+        for (var j = 0; j < arr.length; j++) { if (sArr[j].cl !== arr[j].cl || sArr[j].tk !== arr[j].tk) { same = false; break; } }
+        if (same) ids.push(sid);
+      }
+    }
+    setEdMergedIds(ids.length > 1 ? ids : null);
   }
 
   function commit() {
     if (!edC) return;
     var tx = edT.trim();
     if (!tx) {
-      // empty = cancel edit, keep original
-      setEdC(null); setEdT("");
+      setEdC(null); setEdT(""); setEdMergedIds(null);
       return;
     }
     var parts = tx.split("/").map(function(p) { return p.trim(); }).filter(Boolean);
@@ -500,8 +516,14 @@ function Inner() {
       var m = CL.find(function(c) { return p.toLowerCase().startsWith(c.n.toLowerCase()); });
       return { cl: m ? m.n : "", co: m ? m.c : "#94A3B8", tk: p };
     });
-    sC(edC, items);
-    setEdC(null); setEdT("");
+    // Update all merged slots so they stay merged
+    if (edMergedIds) {
+      push();
+      edMergedIds.forEach(function(mid) { sC(mid, JSON.parse(JSON.stringify(items))); });
+    } else {
+      sC(edC, items);
+    }
+    setEdC(null); setEdT(""); setEdMergedIds(null);
   }
 
   function chipCommit() {
@@ -739,7 +761,7 @@ function Inner() {
   function renderCell(emp, di, g, gi) {
     var baseId = cI(w, emp.n, di, g.s);
     var items = g.c; // array
-    var ed = edC === baseId;
+    var ed = edC === baseId || (edMergedIds && edMergedIds.indexOf(baseId) >= 0);
     var iS = mSel.has(baseId);
     var iF = foc === baseId;
     var cs = g.sp === 1 ? 1 : g.sp === 2 ? 3 : 5;
