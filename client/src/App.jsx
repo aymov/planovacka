@@ -1286,13 +1286,81 @@ function Inner() {
   );
 }
 
+function LoginScreen() {
+  const [pw, setPw] = useState("");
+  const [err, setErr] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(function() {
+    var token = localStorage.getItem("planovacka_token");
+    if (token) {
+      fetch(API + "/auth/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: token }),
+      }).then(function(r) { return r.json(); })
+        .then(function(d) { if (d.ok) { setLoading(false); window.__authed = true; } else { localStorage.removeItem("planovacka_token"); setLoading(false); } })
+        .catch(function() { setLoading(false); });
+    } else { setLoading(false); }
+  }, []);
+
+  function submit(e) {
+    e.preventDefault();
+    setErr("");
+    fetch(API + "/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ password: pw }),
+    }).then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.ok) { localStorage.setItem("planovacka_token", d.token); window.__authed = true; setPw(""); setErr(""); }
+        else setErr("Nesprávné heslo");
+      })
+      .catch(function() { setErr("Chyba spojení"); });
+  }
+
+  if (loading) return <div style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#09090B", color: "#fff", fontFamily: "Inter, system-ui, sans-serif" }}>Načítám...</div>;
+  if (window.__authed) return null;
+
+  return (
+    <div style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#09090B", fontFamily: "'Inter', system-ui, sans-serif" }}>
+      <form onSubmit={submit} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: 40, width: 340, textAlign: "center" }}>
+        <div style={{ width: 48, height: 48, borderRadius: 14, background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 700, color: "#09090B", margin: "0 auto 16px" }}>P</div>
+        <div style={{ fontSize: 20, fontWeight: 700, color: "#EEEEF2", marginBottom: 4 }}>Plánovačka</div>
+        <div style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 24 }}>Zadej heslo pro přístup</div>
+        <input
+          type="password"
+          value={pw}
+          onChange={function(e) { setPw(e.target.value); }}
+          placeholder="Heslo"
+          autoFocus
+          style={{ width: "100%", boxSizing: "border-box", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, padding: "12px 16px", color: "#EEEEF2", fontSize: 14, fontFamily: "inherit", outline: "none", marginBottom: 12 }}
+        />
+        {err && <div style={{ fontSize: 12, color: "#F87171", marginBottom: 8 }}>{err}</div>}
+        <button type="submit" style={{ width: "100%", padding: "12px 0", borderRadius: 12, background: "#818CF8", color: "#fff", fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer", fontFamily: "inherit" }}>Vstoupit</button>
+      </form>
+    </div>
+  );
+}
+
 export default function App() {
+  const [authed, setAuthed] = useState(!!window.__authed);
   const [err, setErr] = useState(null);
+
+  useEffect(function() {
+    // Poll for auth state change from LoginScreen
+    var id = setInterval(function() { if (window.__authed && !authed) setAuthed(true); }, 100);
+    return function() { clearInterval(id); };
+  }, [authed]);
+
   useEffect(function() {
     function h(e) { setErr(e.error ? e.error.toString() + "\n" + e.error.stack : e.message); }
     window.addEventListener("error", h);
     return function() { window.removeEventListener("error", h); };
   }, []);
+
+  if (!authed) return <LoginScreen />;
+
   if (err) return (
     <div style={{ padding: 40, fontFamily: "monospace", background: "#1a0000", color: "#ff6b6b", minHeight: "100vh", whiteSpace: "pre-wrap", fontSize: 13 }}>
       <h2>Error caught:</h2>
