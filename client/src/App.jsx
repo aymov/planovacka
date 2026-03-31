@@ -951,7 +951,7 @@ function Inner() {
   function headerDays() {
     var r = [];
     for (var di = 0; di < 5; di++) {
-      r.push(<th key={"hd" + di} colSpan={5} style={{ position: "sticky", top: 0, zIndex: 20, padding: "8px 4px", textAlign: "center", fontSize: 12.5, fontWeight: 700, letterSpacing: "-0.01em", background: isN(di) ? (dark ? "rgba(129,140,248,0.06)" : "rgba(99,102,241,0.04)") : t.bg, color: isN(di) ? t.aT : t.t2, borderBottom: isN(di) ? "2px solid " + t.ac : "1px solid " + t.cB, borderRadius: 6 }}>{DY[di]} <span style={{ fontWeight: 400, opacity: 0.5 }}>{fD(addD(wk, di))}</span></th>);
+      r.push(<th key={"hd" + di} colSpan={5} style={{ position: "sticky", top: 0, zIndex: 20, padding: "8px 4px", textAlign: "center", fontSize: 12.5, fontWeight: 700, letterSpacing: "-0.01em", background: isN(di) ? (dark ? "#0e0e14" : "#F0F0F6") : t.bg, color: isN(di) ? t.aT : t.t2, borderBottom: isN(di) ? "2px solid " + t.ac : "1px solid " + t.cB, borderRadius: 6 }}>{DY[di]} <span style={{ fontWeight: 400, opacity: 0.5 }}>{fD(addD(wk, di))}</span></th>);
       if (di < 4) r.push(<th key={"hdg" + di} style={{ position: "sticky", top: 0, zIndex: 20, padding: 0, width: 10, background: t.bg, borderRadius: 4 }} />);
     }
     return r;

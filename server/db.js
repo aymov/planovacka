@@ -1,10 +1,12 @@
 import Database from 'better-sqlite3';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { existsSync, mkdirSync } from 'fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 // Use RAILWAY_VOLUME_MOUNT_PATH for persistent storage, fallback to local
 const dbDir = process.env.RAILWAY_VOLUME_MOUNT_PATH || __dirname;
+if (!existsSync(dbDir)) mkdirSync(dbDir, { recursive: true });
 const db = new Database(join(dbDir, 'planovacka.db'));
 
 db.pragma('journal_mode = WAL');
