@@ -956,7 +956,7 @@ function Inner() {
     for (var di = 0; di < 5; di++) {
       var isActive = zoomDay === di || isN(di);
       r.push(<th key={"hd" + di} colSpan={5} onClick={setZoomDay.bind(null, zoomDay === di ? null : di)} style={{ zIndex: 20, padding: "6px 4px", textAlign: "center", background: "transparent", border: "none", cursor: "pointer" }}>
-        <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "5px 8px", borderRadius: 14, fontSize: 12, fontWeight: 700, letterSpacing: "-0.01em", color: isActive ? (dark ? "#fff" : "#fff") : t.t2, background: isActive ? t.ac : (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), border: isActive ? "none" : "1px solid " + (dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"), boxShadow: isActive ? "0 2px 8px rgba(" + rg(t.ac) + ",0.25)" : "none", transition: "all 0.2s ease" }}>
+        <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "5px 16px", borderRadius: 14, fontSize: 12, fontWeight: 700, letterSpacing: "-0.01em", color: isActive ? (dark ? "#fff" : "#fff") : t.t2, background: isActive ? t.ac : (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), border: isActive ? "none" : "1px solid " + (dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"), boxShadow: isActive ? "0 2px 8px rgba(" + rg(t.ac) + ",0.25)" : "none", transition: "all 0.2s ease" }}>
           {DS[di]} <span style={{ fontWeight: 400, fontSize: 10.5, opacity: isActive ? 0.85 : 0.5 }}>{fD(addD(wk, di))}</span>{zoomDay === di && <span style={{ fontSize: 9, opacity: 0.6, marginLeft: 2 }}>✕</span>}
         </span>
       </th>);
@@ -1003,7 +1003,7 @@ function Inner() {
         <tr key={emp.n} className="er">
           <td className="emp-name" onContextMenu={function(e) { e.preventDefault(); setRoleMenu({ x: e.clientX, y: e.clientY, emp: emp.n, cur: emp.r }); }}
             onMouseEnter={function() { setHoverCell(emp.n + "|-1"); }}
-            style={{ padding: "0 12px", position: "sticky", left: 0, zIndex: 10, background: (hoverCell && hoverCell.split("|")[0] === emp.n) ? (dark ? "#151518" : "#E8E8ED") : dark ? "#0c0c0e" : "#F4F4F7", borderLeft: "2px solid " + ri.c, cursor: "context-menu", borderRadius: 8, height: 42, verticalAlign: "middle", border: "none" }}>
+            style={{ padding: "0 12px", position: "sticky", left: 0, zIndex: 10, background: (hoverCell && hoverCell.split("|")[0] === emp.n) ? (dark ? "rgba(21,21,24,0.85)" : "rgba(232,232,237,0.85)") : (dark ? "rgba(12,12,14,0.7)" : "rgba(244,244,247,0.7)"), backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderLeft: "2px solid " + ri.c, cursor: "context-menu", borderRadius: 8, height: 42, verticalAlign: "middle", border: "none", boxShadow: "4px 0 12px -2px " + (dark ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.04)") + ", 0 4px 8px -2px " + (dark ? "rgba(0,0,0,0.35)" : "rgba(0,0,0,0.06)") }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <span style={{ fontSize: 12.5, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", letterSpacing: "-0.01em" }}>{emp.n}</span>
               <span style={{ fontSize: 10, fontWeight: 600, color: l === 0 ? t.t4 : l >= 13 ? t.dn : l >= 9 ? t.wn : t.t3, flexShrink: 0 }}>{l}</span>
@@ -1120,7 +1120,7 @@ function Inner() {
             </tr>
             <tr>
               <th className="week-nav slot-hdr" style={{ left: 0, zIndex: 30, background: "transparent", border: "none", padding: "3px 6px" }}>
-                <button onClick={function() { setWk(getMonday(new Date())); }} style={B({ padding: "3px 0", fontSize: 8.5, fontWeight: 600, background: thisW ? t.aB : (dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)"), color: thisW ? t.aT : t.t3, width: "100%", border: thisW ? "none" : "1px solid " + (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), borderRadius: 8 })}>Dnes</button>
+                <button onClick={function() { setWk(getMonday(new Date())); }} style={B({ padding: "3px 4px", fontSize: 8.5, fontWeight: 600, background: thisW ? t.aB : (dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)"), color: thisW ? t.aT : t.t3, width: "100%", border: thisW ? "none" : "1px solid " + (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), borderRadius: 8 })}>Dnes</button>
               </th>
               {headerSlots()}
             </tr>
@@ -1342,11 +1342,13 @@ function Inner() {
         "th.week-nav, td.emp-name { width: 100px !important; min-width: 100px !important; max-width: 100px !important; overflow: hidden; }" +
         "@media (max-width: 768px) {" +
         "  .cell-td:hover { transform: none !important; }" +
-        "  .name-col { width: 60px !important; }" +
-        "  .emp-name { padding: 0 4px !important; }" +
-        "  .emp-name span { font-size: 9px !important; }" +
+        "  .name-col { width: 54px !important; }" +
+        "  th.week-nav, td.emp-name { width: 54px !important; min-width: 54px !important; max-width: 54px !important; }" +
+        "  .emp-name { padding: 0 4px !important; height: 32px !important; }" +
+        "  .emp-name span { font-size: 8px !important; }" +
         "  .week-nav { padding: 1px 2px !important; font-size: 7px !important; overflow: hidden !important; }" +
-        "  .week-nav button { width: 20px !important; height: 20px !important; min-width: 20px !important; font-size: 10px !important; padding: 0 !important; }" +
+        "  .week-nav button { width: 20px !important; height: 20px !important; min-width: 20px !important; font-size: 10px !important; padding: 0 !important; border-radius: 10px !important; }" +
+        "  .week-nav.slot-hdr button { width: auto !important; height: auto !important; min-width: 0 !important; padding: 2px 8px !important; font-size: 7px !important; border-radius: 10px !important; max-width: 100% !important; overflow: hidden !important; }" +
         "  .week-nav div { gap: 1px !important; }" +
         "}"
       }</style>
