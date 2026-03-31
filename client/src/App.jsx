@@ -1119,8 +1119,8 @@ function Inner() {
               {headerDays()}
             </tr>
             <tr>
-              <th className="week-nav slot-hdr" style={{ left: 0, zIndex: 30, background: "transparent", border: "none", padding: "3px 6px" }}>
-                <button onClick={function() { setWk(getMonday(new Date())); }} style={B({ padding: "3px 4px", fontSize: 8.5, fontWeight: 600, background: thisW ? t.aB : (dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)"), color: thisW ? t.aT : t.t3, width: "100%", border: thisW ? "none" : "1px solid " + (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), borderRadius: 8 })}>Dnes</button>
+              <th className="week-nav slot-hdr" style={{ left: 0, zIndex: 30, background: "transparent", border: "none", padding: "3px 2px" }}>
+                <button onClick={function() { setWk(getMonday(new Date())); }} style={B({ display: "block", padding: "3px 4px", fontSize: 8.5, fontWeight: 600, lineHeight: "normal", background: thisW ? t.aB : (dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)"), color: thisW ? t.aT : t.t3, width: "100%", border: thisW ? "none" : "1px solid " + (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), borderRadius: 8, letterSpacing: "0.01em", textAlign: "center" })}>Dnes</button>
               </th>
               {headerSlots()}
             </tr>
@@ -1342,13 +1342,14 @@ function Inner() {
         "th.week-nav, td.emp-name { width: 100px !important; min-width: 100px !important; max-width: 100px !important; overflow: hidden; }" +
         "@media (max-width: 768px) {" +
         "  .cell-td:hover { transform: none !important; }" +
-        "  .name-col { width: 54px !important; }" +
-        "  th.week-nav, td.emp-name { width: 54px !important; min-width: 54px !important; max-width: 54px !important; }" +
-        "  .emp-name { padding: 0 4px !important; height: 32px !important; }" +
-        "  .emp-name span { font-size: 8px !important; }" +
+        "  .name-col { width: 46px !important; }" +
+        "  th.week-nav, td.emp-name { width: 46px !important; min-width: 46px !important; max-width: 46px !important; }" +
+        "  .emp-name { padding: 0 3px !important; height: 24px !important; }" +
+        "  .emp-name span { font-size: 10px !important; }" +
         "  .week-nav { padding: 1px 2px !important; font-size: 7px !important; overflow: hidden !important; }" +
         "  .week-nav button { width: 20px !important; height: 20px !important; min-width: 20px !important; font-size: 10px !important; padding: 0 !important; border-radius: 10px !important; }" +
-        "  .week-nav.slot-hdr button { width: auto !important; height: auto !important; min-width: 0 !important; padding: 2px 8px !important; font-size: 7px !important; border-radius: 10px !important; max-width: 100% !important; overflow: hidden !important; }" +
+        "  .week-nav.slot-hdr { text-align: center !important; }" +
+        "  .week-nav.slot-hdr button { width: auto !important; height: auto !important; min-width: 0 !important; padding: 2px 8px !important; font-size: 7px !important; border-radius: 10px !important; max-width: 100% !important; overflow: hidden !important; margin: 0 auto !important; }" +
         "  .week-nav div { gap: 1px !important; }" +
         "}"
       }</style>
