@@ -955,12 +955,12 @@ function Inner() {
     var r = [];
     for (var di = 0; di < 5; di++) {
       var isActive = zoomDay === di || isN(di);
-      r.push(<th key={"hd" + di} colSpan={5} onClick={setZoomDay.bind(null, zoomDay === di ? null : di)} style={{ position: "sticky", top: 0, zIndex: 20, padding: "6px 4px", textAlign: "center", background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "none", cursor: "pointer", transition: "all 0.2s ease" }}>
+      r.push(<th key={"hd" + di} colSpan={5} onClick={setZoomDay.bind(null, zoomDay === di ? null : di)} style={{ position: "sticky", top: 0, zIndex: 20, padding: "6px 4px", textAlign: "center", background: "transparent", border: "none", cursor: "pointer", transition: "all 0.2s ease" }}>
         <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "5px 8px", borderRadius: 14, fontSize: 12, fontWeight: 700, letterSpacing: "-0.01em", color: isActive ? (dark ? "#fff" : "#fff") : t.t2, background: isActive ? t.ac : (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), border: isActive ? "none" : "1px solid " + (dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"), boxShadow: isActive ? "0 2px 8px rgba(" + rg(t.ac) + ",0.25)" : "none", transition: "all 0.2s ease" }}>
           {DS[di]} <span style={{ fontWeight: 400, fontSize: 10.5, opacity: isActive ? 0.85 : 0.5 }}>{fD(addD(wk, di))}</span>{zoomDay === di && <span style={{ fontSize: 9, opacity: 0.6, marginLeft: 2 }}>✕</span>}
         </span>
       </th>);
-      if (di < 4) r.push(<th key={"hdg" + di} style={{ position: "sticky", top: 0, zIndex: 20, padding: 0, width: 10, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }} />);
+      if (di < 4) r.push(<th key={"hdg" + di} style={{ position: "sticky", top: 0, zIndex: 20, padding: 0, width: 10, background: "transparent" }} />);
     }
     return r;
   }
@@ -969,12 +969,12 @@ function Inner() {
     var r = [];
     for (var di = 0; di < 5; di++) {
       for (var si = 0; si < 3; si++) {
-        r.push(<th key={"hs" + di + si} style={{ position: "sticky", top: 38, zIndex: 20, padding: "3px 2px", textAlign: "center", background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "none" }}>
+        r.push(<th key={"hs" + di + si} className="slot-hdr" style={{ position: "sticky", top: 38, zIndex: 20, padding: "3px 2px", textAlign: "center", background: "transparent", border: "none" }}>
           <span style={{ display: "block", padding: "3px 4px", borderRadius: 8, fontSize: 8.5, fontWeight: 600, color: t.t3, background: dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)", border: "1px solid " + (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), letterSpacing: "0.01em", textAlign: "center", whiteSpace: "nowrap", overflow: "hidden" }}>{SL[si]}</span>
         </th>);
-        if (si < 2) r.push(<th key={"hss" + di + si} style={{ position: "sticky", top: 38, zIndex: 20, width: 1, padding: 0, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }} />);
+        if (si < 2) r.push(<th key={"hss" + di + si} className="slot-hdr" style={{ position: "sticky", top: 38, zIndex: 20, width: 1, padding: 0, background: "transparent" }} />);
       }
-      if (di < 4) r.push(<th key={"hsg" + di} style={{ position: "sticky", top: 38, zIndex: 20, width: 10, padding: 0, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }} />);
+      if (di < 4) r.push(<th key={"hsg" + di} className="slot-hdr" style={{ position: "sticky", top: 38, zIndex: 20, width: 10, padding: 0, background: "transparent" }} />);
     }
     return r;
   }
@@ -1078,7 +1078,7 @@ function Inner() {
           {Object.entries(RO).map(function(entry) {
             var r = entry[0], info = entry[1];
             var on = fR === r;
-            return <button key={r} onClick={function() { setFR(on ? null : r); }} style={{ padding: "3px 8px", borderRadius: 6, fontSize: 9, fontWeight: 500, fontFamily: "inherit", cursor: "pointer", border: on ? "1px solid " + info.c : "1px solid transparent", background: on ? "rgba(" + rg(info.c) + ",0.12)" : "transparent", color: on ? info.c : t.t4 }}>{info.e}</button>;
+            return <button key={r} onClick={function() { setFR(on ? null : r); }} style={{ padding: "3px 8px", borderRadius: 6, fontSize: 9, fontWeight: 500, fontFamily: "inherit", cursor: "pointer", border: on ? "1px solid " + info.c : "1px solid transparent", background: on ? "rgba(" + rg(info.c) + ",0.12)" : "transparent", color: on ? info.c : t.t4, whiteSpace: "nowrap" }}>{r}</button>;
           })}
         </div>
         <div style={{ height: 16, width: 1, background: t.sB, flexShrink: 0 }} />
@@ -1106,7 +1106,7 @@ function Inner() {
           </colgroup>
           <thead>
             <tr>
-              <th className="week-nav" style={{ position: "sticky", top: 0, left: 0, zIndex: 30, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "none", padding: "4px 6px", verticalAlign: "middle" }}>
+              <th className="week-nav" style={{ position: "sticky", top: 0, left: 0, zIndex: 30, background: "transparent", border: "none", padding: "4px 6px", verticalAlign: "middle" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                   <button onClick={function() { setWk(addD(wk, -7)); }} style={{ width: 28, height: 28, borderRadius: 14, border: "1px solid " + (dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"), background: dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)", color: t.t2, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "inherit", padding: 0, transition: "all 0.15s ease" }}>‹</button>
                   <div style={{ textAlign: "center", flex: 1, minWidth: 0 }}>
@@ -1119,7 +1119,7 @@ function Inner() {
               {headerDays()}
             </tr>
             <tr>
-              <th className="week-nav" style={{ position: "sticky", top: 38, left: 0, zIndex: 30, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "none", padding: "3px 6px" }}>
+              <th className="week-nav slot-hdr" style={{ position: "sticky", top: 38, left: 0, zIndex: 30, background: "transparent", border: "none", padding: "3px 6px" }}>
                 <button onClick={function() { setWk(getMonday(new Date())); }} style={B({ padding: "3px 0", fontSize: 8.5, fontWeight: 600, background: thisW ? t.aB : (dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)"), color: thisW ? t.aT : t.t3, width: "100%", border: thisW ? "none" : "1px solid " + (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), borderRadius: 8 })}>Dnes</button>
               </th>
               {headerSlots()}
@@ -1336,6 +1336,8 @@ function Inner() {
         "input:focus { box-shadow: 0 0 0 2px " + t.fO + " !important; }" +
         "button { transition: all 0.15s ease; }" +
         "button:active { transform: scale(0.97); }" +
+        "thead { position: sticky; top: 0; z-index: 19; }" +
+        "thead::before { content: ''; position: absolute; inset: -4px; background: " + (dark ? "rgba(20,20,30,0.5)" : "rgba(235,235,245,0.5)") + "; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: -1; pointer-events: none; border-radius: 0 0 16px 16px; box-shadow: 0 4px 12px -2px " + (dark ? "rgba(0,0,0,0.4)" : "rgba(0,0,0,0.06)") + ", inset 0 0 0 1px " + (dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)") + "; }" +
         "col.name-col { width: 100px !important; }" +
         "th.week-nav, td.emp-name { width: 100px !important; min-width: 100px !important; max-width: 100px !important; overflow: hidden; }" +
         "@media (max-width: 768px) {" +
