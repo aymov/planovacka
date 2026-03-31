@@ -9,7 +9,7 @@ const TH = {
     cB:"rgba(255,255,255,0.07)",slS:"rgba(255,255,255,0.02)",dS:"rgba(255,255,255,0.015)",
     ac:"#818CF8",aR:"129,140,248",aB:"rgba(129,140,248,0.10)",aT:"#A5B4FC",
     ch:.40,chB:.30,chG:.12,chI:"rgba(255,255,255,0.08)",
-    se:"rgba(129,140,248,0.08)",seO:"rgba(129,140,248,0.25)",fO:"rgba(129,140,248,0.5)",
+    se:"rgba(129,140,248,0.18)",seO:"rgba(129,140,248,0.45)",fO:"rgba(129,140,248,0.6)",
     tB:"rgba(129,140,248,0.02)",tH:"rgba(129,140,248,0.05)",tBd:"rgba(129,140,248,0.4)",
     mB:"rgba(18,18,24,0.97)",mO:"rgba(0,0,0,0.60)",hB:"rgba(255,255,255,0.04)",wB:.1,
     dn:"#F87171",wn:"#FBBF24",ok:"#6EE7A0",sc:"rgba(255,255,255,0.06)",eH:"rgba(255,255,255,0.012)",
@@ -20,7 +20,7 @@ const TH = {
     cB:"rgba(0,0,0,0.07)",slS:"rgba(0,0,0,0.03)",dS:"rgba(0,0,0,0.025)",
     ac:"#6366F1",aR:"99,102,241",aB:"rgba(99,102,241,0.08)",aT:"#4F46E5",
     ch:.28,chB:.22,chG:.08,chI:"rgba(255,255,255,0.3)",
-    se:"rgba(99,102,241,0.06)",seO:"rgba(99,102,241,0.2)",fO:"rgba(99,102,241,0.4)",
+    se:"rgba(99,102,241,0.15)",seO:"rgba(99,102,241,0.4)",fO:"rgba(99,102,241,0.5)",
     tB:"rgba(99,102,241,0.025)",tH:"rgba(99,102,241,0.04)",tBd:"rgba(99,102,241,0.35)",
     mB:"rgba(255,255,255,0.97)",mO:"rgba(0,0,0,0.25)",hB:"rgba(0,0,0,0.04)",wB:.08,
     dn:"#DC2626",wn:"#D97706",ok:"#16A34A",sc:"rgba(0,0,0,0.08)",eH:"rgba(0,0,0,0.015)",
@@ -367,17 +367,130 @@ function Inner() {
   }, [flt, w]);
 
   var gRng = useCallback(function(a, b) {
-    var ia = allIds.indexOf(a), ib = allIds.indexOf(b);
-    if (ia < 0 || ib < 0) return [b];
-    return allIds.slice(Math.min(ia, ib), Math.max(ia, ib) + 1);
-  }, [allIds]);
+    var ap = a.split("|"), bp = b.split("|");
+    var aEmp = ap[1], aDi = parseInt(ap[2]), aSi = parseInt(ap[3]);
+    var bEmp = bp[1], bDi = parseInt(bp[2]), bSi = parseInt(bp[3]);
+    var empNames = flt.map(function(e) { return e.n; });
+    var aEi = empNames.indexOf(aEmp), bEi = empNames.indexOf(bEmp);
+    if (aEi < 0 || bEi < 0) return [b];
+    var eLo = Math.min(aEi, bEi), eHi = Math.max(aEi, bEi);
+    var aFlat = aDi * 3 + aSi, bFlat = bDi * 3 + bSi;
+    var fLo = Math.min(aFlat, bFlat), fHi = Math.max(aFlat, bFlat);
+    var result = [];
+    for (var ei = eLo; ei <= eHi; ei++) {
+      for (var f = fLo; f <= fHi; f++) {
+        result.push(cI(w, empNames[ei], Math.floor(f / 3), f % 3));
+      }
+    }
+    return result;
+  }, [flt, w]);
 
   // Keyboard
+  // Autocomplete state for empty cell typing
+  const [acText, setAcText] = useState("");
+  const [acCell, setAcCell] = useState(null); // cell ID being typed into
+  const [acIdx, setAcIdx] = useState(0); // highlighted suggestion index
+
+  var acMatches = useMemo(function() {
+    if (!acText) return [];
+    var q = acText.toLowerCase();
+    return CL.filter(function(c) { return c.n.toLowerCase().startsWith(q) || c.i.toLowerCase().startsWith(q); });
+  }, [acText]);
+
+  function acCommit(client) {
+    if (!acCell) return;
+    push();
+    var arr = cellArr(acCell);
+    var has = arr.some(function(x) { return x.cl === client.n; });
+    if (!has) sC(acCell, arr.concat([{ cl: client.n, co: client.c, tk: client.n }]));
+    setAcText(""); setAcCell(null); setAcIdx(0);
+  }
+
+  function acCancel() {
+    setAcText(""); setAcCell(null); setAcIdx(0);
+  }
+
   useEffect(function() {
     function h(e) {
+      // Autocomplete mode keyboard handling
+      if (acCell) {
+        if (e.key === "Escape") { e.preventDefault(); acCancel(); return; }
+        if (e.key === "Enter") {
+          e.preventDefault();
+          if (acMatches.length > 0) acCommit(acMatches[acIdx]);
+          else acCancel();
+          return;
+        }
+        if (e.key === "ArrowDown") { e.preventDefault(); setAcIdx(function(i) { return Math.min(i + 1, acMatches.length - 1); }); return; }
+        if (e.key === "ArrowUp") { e.preventDefault(); setAcIdx(function(i) { return Math.max(i - 1, 0); }); return; }
+        if (e.key === "Backspace") {
+          e.preventDefault();
+          setAcText(function(t) { var n = t.slice(0, -1); if (!n) { acCancel(); } return n; });
+          setAcIdx(0);
+          return;
+        }
+        if (e.key === "Tab" && acMatches.length > 0) {
+          e.preventDefault();
+          acCommit(acMatches[acIdx]);
+          return;
+        }
+        if (e.key.length === 1 && !e.metaKey && !e.ctrlKey) {
+          e.preventDefault();
+          setAcText(function(t) { return t + e.key; });
+          setAcIdx(0);
+          return;
+        }
+        return;
+      }
+
       if (edC || chipEdit) return;
       var m = e.metaKey || e.ctrlKey;
       var tg = mSel.size > 1 ? Array.from(mSel) : foc ? [foc] : [];
+
+      // Arrow key navigation between cells
+      if (foc && (e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+        e.preventDefault();
+        var parts = foc.split("|");
+        var empN = parts[1], di = parseInt(parts[2]), si = parseInt(parts[3]);
+        var empNames = flt.map(function(emp) { return emp.n; });
+        var ei = empNames.indexOf(empN);
+        if (ei < 0) return;
+
+        if (e.key === "ArrowRight") {
+          si++;
+          if (si > 2) { si = 0; di++; }
+          if (di > 4) return;
+        } else if (e.key === "ArrowLeft") {
+          si--;
+          if (si < 0) { si = 2; di--; }
+          if (di < 0) return;
+        } else if (e.key === "ArrowDown") {
+          ei++;
+          if (ei >= empNames.length) return;
+        } else if (e.key === "ArrowUp") {
+          ei--;
+          if (ei < 0) return;
+        }
+        var newId = cI(w, empNames[ei], di, si);
+        setFoc(newId);
+        setAnch(newId);
+        if (!e.shiftKey) setMSel(new Set([newId]));
+        else setMSel(new Set(gRng(anch, newId)));
+        setSubSel(null);
+        return;
+      }
+
+      // Type to start editing empty/any focused cell
+      if (foc && !m && e.key.length === 1 && !e.altKey) {
+        var fc = cellArr(foc);
+        // Start autocomplete on focused cell
+        e.preventDefault();
+        setAcCell(foc);
+        setAcText(e.key);
+        setAcIdx(0);
+        return;
+      }
+
       if (m && e.key === "z") { e.preventDefault(); pop(); }
       if (m && e.key === "a") { e.preventDefault(); setMSel(new Set(allIds)); }
       if (m && e.key === "c" && foc) { e.preventDefault(); var c = cells[foc]; if (c) setClip(JSON.parse(JSON.stringify(c))); }
@@ -400,13 +513,73 @@ function Inner() {
     }
     window.addEventListener("keydown", h);
     return function() { window.removeEventListener("keydown", h); };
-  }, [pop, foc, clip, cells, edC, push, sC, mSel, allIds, subSel]);
+  }, [pop, foc, clip, cells, edC, push, sC, mSel, allIds, subSel, acCell, acText, acMatches, acIdx, flt, w, anch, gRng, chipEdit]);
+
+  // Fill handle: drag to extend cell content across range
+  const [fillDrag, setFillDrag] = useState(false); // true when dragging fill handle
+  const [fillSource, setFillSource] = useState(null); // source cell ID
+  const [fillRange, setFillRange] = useState(new Set()); // cells highlighted for fill
+
+  function onFillHandleDown(e, id) {
+    e.preventDefault();
+    e.stopPropagation();
+    setFillDrag(true);
+    setFillSource(id);
+    setFillRange(new Set([id]));
+  }
+
+  function onFillEnter(id) {
+    if (!fillDrag || !fillSource) return;
+    var sp = fillSource.split("|");
+    var tp = id.split("|");
+    var srcEmp = sp[1], srcDi = parseInt(sp[2]), srcSi = parseInt(sp[3]);
+    var tgtEmp = tp[1], tgtDi = parseInt(tp[2]), tgtSi = parseInt(tp[3]);
+    var empNames = flt.map(function(e) { return e.n; });
+    var srcEi = empNames.indexOf(srcEmp);
+    var tgtEi = empNames.indexOf(tgtEmp);
+    if (srcEi < 0 || tgtEi < 0) return;
+    // Excel-style rectangle: from source slot to target slot
+    var range = new Set();
+    var eLo = Math.min(srcEi, tgtEi), eHi = Math.max(srcEi, tgtEi);
+    // Convert day+slot to a flat index (0-14) for rectangular range
+    var srcFlat = srcDi * 3 + srcSi;
+    var tgtFlat = tgtDi * 3 + tgtSi;
+    var fLo = Math.min(srcFlat, tgtFlat), fHi = Math.max(srcFlat, tgtFlat);
+    for (var ei = eLo; ei <= eHi; ei++) {
+      for (var f = fLo; f <= fHi; f++) {
+        range.add(cI(w, empNames[ei], Math.floor(f / 3), f % 3));
+      }
+    }
+    setFillRange(range);
+  }
+
+  function commitFill() {
+    if (!fillDrag || !fillSource || fillRange.size <= 1) {
+      setFillDrag(false); setFillSource(null); setFillRange(new Set());
+      return;
+    }
+    var content = cellArr(fillSource);
+    if (content.length === 0) {
+      setFillDrag(false); setFillSource(null); setFillRange(new Set());
+      return;
+    }
+    push();
+    fillRange.forEach(function(id) {
+      if (id !== fillSource) {
+        sC(id, JSON.parse(JSON.stringify(content)));
+      }
+    });
+    setFillDrag(false); setFillSource(null); setFillRange(new Set());
+  }
 
   useEffect(function() {
-    function h() { setPaint(false); setPaintReady(false); }
+    function h() {
+      if (fillDrag) { commitFill(); }
+      setPaint(false); setPaintReady(false);
+    }
     window.addEventListener("mouseup", h);
     return function() { window.removeEventListener("mouseup", h); };
-  }, []);
+  }, [fillDrag, fillSource, fillRange]);
 
   useEffect(function() {
     function h() { if (ctx) setCtx(null); if (roleMenu) setRoleMenu(null); if (copyMenu) setCopyMenu(null); }
@@ -439,6 +612,7 @@ function Inner() {
     if (e.button !== 0) return;
     e.preventDefault();
     setSubSel(null);
+    if (acCell) { acCancel(); }
     // Homeoffice mode: toggle HO on this specific cell
     if (hoMode) {
       toggleHOCell(id);
@@ -796,6 +970,8 @@ function Inner() {
     var inRow = hRow === emp.n;
     var inCol = hDay === di;
     var crossHl = (inRow || inCol) && !iS && !iF;
+    var inFill = fillRange.has(baseId) && baseId !== fillSource;
+    var showFillHandle = iF && hasContent && !fillDrag && !ed;
 
     // For merged cells: determine actual slot from click position
     function getSlotId(e) {
@@ -812,18 +988,20 @@ function Inner() {
       <td key={di + "-" + gi} colSpan={cs}
         onMouseDown={function(e) { onDn(getSlotId(e), e); }}
         onDoubleClick={function(e) { onDb(getSlotId(e)); }}
-        onMouseEnter={function() { onEn(baseId); setHoverCell(emp.n + "|" + di); }}
+        onMouseEnter={function() { if (fillDrag) { onFillEnter(baseId); } else { onEn(baseId); } setHoverCell(emp.n + "|" + di); }}
         onContextMenu={function(e) { onCx(e, getSlotId(e)); }}
         onDragOver={function(e) { e.preventDefault(); }}
         onDrop={function(e) { e.preventDefault(); dropChip(getSlotId(e)); }}
         className="cell-td"
         style={{
           padding: 0, border: "1px solid " + t.cB, borderRadius: 8,
-          background: iS ? t.se : (inRow && inCol) ? (dark ? "rgba(255,255,255,0.06)" : "#F6F6FA") : crossHl ? (dark ? "rgba(255,255,255,0.035)" : "#F5F5F9") : dark ? "rgba(255,255,255,0.03)" : "#FAFAFC",
+          background: inFill ? (dark ? "rgba(99,132,255,0.15)" : "rgba(59,130,246,0.1)") : iS ? t.se : (inRow && inCol) ? (dark ? "rgba(255,255,255,0.06)" : "#F6F6FA") : crossHl ? (dark ? "rgba(255,255,255,0.035)" : "#F5F5F9") : dark ? "rgba(255,255,255,0.03)" : "#FAFAFC",
           cursor: sel ? "crosshair" : "cell", verticalAlign: "top", height: 42,
-          outline: iF ? "2px solid " + t.fO : iS ? "1px solid " + t.seO : "none",
+          outline: inFill ? "2px dashed " + t.ac : iF ? "2px solid " + t.fO : iS ? "1px solid " + t.seO : "none",
           outlineOffset: -1,
-          overflow: "hidden",
+          overflow: (acCell === baseId || showFillHandle) ? "visible" : "hidden",
+          zIndex: acCell === baseId ? 40 : undefined,
+          position: (acCell === baseId || showFillHandle) ? "relative" : undefined,
           transition: "transform 0.15s ease, box-shadow 0.15s ease, background 0.1s ease",
           boxShadow: (inRow && inCol && !iS) ? (dark ? "0 0 0 1px rgba(255,255,255,0.12)" : "0 0 0 1px rgba(0,0,0,0.14)") : dark ? "none" : "0 1px 2px rgba(0,0,0,0.02)",
         }}>
@@ -836,6 +1014,27 @@ function Inner() {
           <input autoFocus value={edT} onChange={function(e) { setEdT(e.target.value); }} onBlur={commit}
             onKeyDown={function(e) { if (e.key === "Enter") commit(); if (e.key === "Escape") { setEdC(null); setEdT(""); setEdMergedIds(null); } }}
             style={{ width: "100%", boxSizing: "border-box", background: t.aB, border: "1px solid " + t.ac + "60", borderRadius: 10, padding: "6px 8px", color: t.tx, fontSize: 10, fontFamily: "inherit", outline: "none" }} />
+        ) : acCell === baseId ? (
+          <div style={{ position: "relative" }}>
+            <div style={{ padding: "6px 8px", fontSize: 10, fontWeight: 600, color: t.tx, background: t.aB, borderRadius: 8, minHeight: 26, display: "flex", alignItems: "center" }}>
+              {acText}<span style={{ display: "inline-block", width: 1, height: 12, background: t.ac, animation: "blink 1s infinite", marginLeft: 1 }} />
+            </div>
+            {acMatches.length > 0 && (
+              <div style={{ position: "absolute", top: "100%", left: 0, right: 0, zIndex: 50, background: dark ? "#1e1e24" : "#fff", border: "1px solid " + t.cB, borderRadius: 8, boxShadow: "0 8px 24px rgba(0,0,0,0.15)", overflow: "hidden", marginTop: 2, minWidth: 120 }}>
+                {acMatches.slice(0, 6).map(function(cl, i) {
+                  return (
+                    <div key={cl.n} onMouseDown={function(e) { e.preventDefault(); e.stopPropagation(); acCommit(cl); }}
+                      style={{ padding: "6px 10px", fontSize: 10, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6,
+                        background: i === acIdx ? (dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.05)") : "transparent",
+                        color: t.tx, transition: "background 0.1s" }}>
+                      <span style={{ width: 8, height: 8, borderRadius: 4, background: cl.c, flexShrink: 0 }} />
+                      {cl.n}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         ) : hasContent ? (
           <div style={{ display: "flex", flexDirection: "column", gap: items.length > 1 ? 2 : 0, padding: items.length > 1 ? 2 : 0, height: "100%" }}>
             {items.map(function(c, ci) {
@@ -917,6 +1116,10 @@ function Inner() {
             })}
           </div>
         ) : <div style={{ minHeight: 30 }} />}
+        {showFillHandle && (
+          <div onMouseDown={function(e) { onFillHandleDown(e, baseId); }}
+            style={{ position: "absolute", right: 0, bottom: 0, width: 18, height: 18, cursor: "crosshair", zIndex: 10, borderRadius: 4, background: "radial-gradient(circle at bottom right, " + (hasContent ? firstColor : t.fO) + ", transparent 70%)" }} />
+        )}
       </td>
     );
   }
@@ -1321,6 +1524,7 @@ function Inner() {
       )}
 
       <style>{
+        "@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }" +
         "* { box-sizing: border-box; }" +
         "::-webkit-scrollbar { width: 7px; height: 7px; }" +
         "::-webkit-scrollbar-track { background: transparent; }" +
