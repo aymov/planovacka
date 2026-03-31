@@ -218,6 +218,7 @@ function Inner() {
   const [dragChip, setDragChip] = useState(null);
   const [cliFilter, setCliFilter] = useState(null);
   const [viewMode, setViewMode] = useState("normal");
+  const [zoomDay, setZoomDay] = useState(null); // index of zoomed day (0-4) or null
   const [copyMenu, setCopyMenu] = useState(null);
   const [hoverCell, setHoverCell] = useState(null);
   const [hoMap, setHoMap] = useState({}); // {"cellId": true} homeoffice per cell
@@ -940,9 +941,11 @@ function Inner() {
   function headerCols() {
     var r = [];
     for (var di = 0; di < 5; di++) {
-      r.push(<col key={"ca" + di} />); r.push(<col key={"s1" + di} style={{ width: 1 }} />);
-      r.push(<col key={"cb" + di} />); r.push(<col key={"s2" + di} style={{ width: 1 }} />);
-      r.push(<col key={"cc" + di} />);
+      // When zoomed: zoomed day gets 3x width, others get 0.5x
+      var cw = zoomDay !== null ? (zoomDay === di ? 60 : 10) : undefined;
+      r.push(<col key={"ca" + di} style={cw ? { width: cw } : undefined} />); r.push(<col key={"s1" + di} style={{ width: 1 }} />);
+      r.push(<col key={"cb" + di} style={cw ? { width: cw } : undefined} />); r.push(<col key={"s2" + di} style={{ width: 1 }} />);
+      r.push(<col key={"cc" + di} style={cw ? { width: cw } : undefined} />);
       if (di < 4) r.push(<col key={"cg" + di} style={{ width: 6 }} />);
     }
     return r;
@@ -951,7 +954,7 @@ function Inner() {
   function headerDays() {
     var r = [];
     for (var di = 0; di < 5; di++) {
-      r.push(<th key={"hd" + di} colSpan={5} style={{ position: "sticky", top: 0, zIndex: 20, padding: "8px 4px", textAlign: "center", fontSize: 12.5, fontWeight: 700, letterSpacing: "-0.01em", background: isN(di) ? (dark ? "rgba(14,14,20,0.85)" : "rgba(240,240,246,0.85)") : (dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)"), backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", color: isN(di) ? t.aT : t.t2, borderBottom: isN(di) ? "2px solid " + t.ac : "1px solid " + t.cB, borderRadius: 6 }}>{DY[di]} <span style={{ fontWeight: 400, opacity: 0.5 }}>{fD(addD(wk, di))}</span></th>);
+      r.push(<th key={"hd" + di} colSpan={5} onClick={setZoomDay.bind(null, zoomDay === di ? null : di)} style={{ position: "sticky", top: 0, zIndex: 20, padding: "8px 4px", textAlign: "center", fontSize: 12.5, fontWeight: 700, letterSpacing: "-0.01em", background: isN(di) ? (dark ? "rgba(14,14,20,0.85)" : "rgba(240,240,246,0.85)") : (dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)"), backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", color: zoomDay === di ? t.aT : isN(di) ? t.aT : t.t2, borderBottom: zoomDay === di ? "2px solid " + t.ac : isN(di) ? "2px solid " + t.ac : "1px solid " + t.cB, borderRadius: 6, cursor: "pointer", transition: "all 0.2s ease" }}>{DY[di]} <span style={{ fontWeight: 400, opacity: 0.5 }}>{fD(addD(wk, di))}</span>{zoomDay === di && <span style={{ marginLeft: 6, fontSize: 9, opacity: 0.4 }}>x</span>}</th>);
       if (di < 4) r.push(<th key={"hdg" + di} style={{ position: "sticky", top: 0, zIndex: 20, padding: 0, width: 10, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 4 }} />);
     }
     return r;
@@ -1091,7 +1094,7 @@ function Inner() {
       <div style={{ flex: 1, overflow: "auto", padding: "0 16px 60px" }}>
         <table onMouseLeave={function() { setHoverCell(null); }} style={{ borderCollapse: "separate", borderSpacing: "2px 2px", width: "100%", minWidth: 900, tableLayout: "fixed" }}>
           <colgroup>
-            <col style={{ width: 140 }} />
+            <col className="name-col" style={{ width: 140 }} />
             {headerCols()}
           </colgroup>
           <thead>
@@ -1326,8 +1329,10 @@ function Inner() {
         "button:active { transform: scale(0.97); }" +
         "@media (max-width: 768px) {" +
         "  .cell-td:hover { transform: none !important; }" +
-        "  .emp-name { position: static !important; }" +
-        "  .week-nav { position: static !important; }" +
+        "  .name-col { width: 60px !important; }" +
+        "  .emp-name { padding: 0 4px !important; }" +
+        "  .emp-name span { font-size: 9px !important; }" +
+        "  .week-nav { padding: 2px 3px !important; font-size: 8px !important; }" +
         "}"
       }</style>
     </div>
