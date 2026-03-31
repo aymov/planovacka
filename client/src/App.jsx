@@ -3,26 +3,26 @@ import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 const API = "/api";
 
 const TH = {
-  dark:{bg:"#09090B",tx:"#EEEEF2",t2:"rgba(255,255,255,0.6)",t3:"rgba(255,255,255,0.4)",t4:"rgba(255,255,255,0.3)",
-    gl:"rgba(9,9,11,0.75)",gB:"rgba(255,255,255,0.06)",gS:"rgba(16,16,20,0.94)",
-    sf:"rgba(255,255,255,0.035)",sB:"rgba(255,255,255,0.06)",sH:"rgba(255,255,255,0.07)",
+  dark:{bg:"#09090B",tx:"#F0F0F4",t2:"rgba(255,255,255,0.65)",t3:"rgba(255,255,255,0.42)",t4:"rgba(255,255,255,0.28)",
+    gl:"rgba(12,12,16,0.78)",gB:"rgba(255,255,255,0.07)",gS:"rgba(18,18,24,0.96)",
+    sf:"rgba(255,255,255,0.04)",sB:"rgba(255,255,255,0.07)",sH:"rgba(255,255,255,0.09)",
     cB:"rgba(255,255,255,0.07)",slS:"rgba(255,255,255,0.02)",dS:"rgba(255,255,255,0.015)",
-    ac:"#818CF8",aR:"129,140,248",aB:"rgba(129,140,248,0.12)",aT:"#A5B4FC",
-    ch:.55,chB:.6,chG:.15,chI:"rgba(255,255,255,0.1)",
+    ac:"#818CF8",aR:"129,140,248",aB:"rgba(129,140,248,0.10)",aT:"#A5B4FC",
+    ch:.40,chB:.30,chG:.12,chI:"rgba(255,255,255,0.08)",
     se:"rgba(129,140,248,0.08)",seO:"rgba(129,140,248,0.25)",fO:"rgba(129,140,248,0.5)",
     tB:"rgba(129,140,248,0.02)",tH:"rgba(129,140,248,0.05)",tBd:"rgba(129,140,248,0.4)",
-    mB:"rgba(16,16,20,0.96)",mO:"rgba(0,0,0,0.55)",hB:"rgba(255,255,255,0.035)",wB:.1,
-    dn:"#F87171",wn:"#FBBF24",ok:"#6EE7A0",sc:"rgba(255,255,255,0.05)",eH:"rgba(255,255,255,0.012)",
+    mB:"rgba(18,18,24,0.97)",mO:"rgba(0,0,0,0.60)",hB:"rgba(255,255,255,0.04)",wB:.1,
+    dn:"#F87171",wn:"#FBBF24",ok:"#6EE7A0",sc:"rgba(255,255,255,0.06)",eH:"rgba(255,255,255,0.012)",
     gw:[]},
-  light:{bg:"#EEEEF2",tx:"#1A1A1F",t2:"rgba(0,0,0,0.6)",t3:"rgba(0,0,0,0.42)",t4:"rgba(0,0,0,0.28)",
-    gl:"rgba(255,255,255,0.85)",gB:"rgba(0,0,0,0.08)",gS:"rgba(255,255,255,0.96)",
-    sf:"rgba(0,0,0,0.03)",sB:"rgba(0,0,0,0.08)",sH:"rgba(0,0,0,0.05)",
-    cB:"rgba(0,0,0,0.1)",slS:"rgba(0,0,0,0.03)",dS:"rgba(0,0,0,0.025)",
+  light:{bg:"#F5F5F9",tx:"#18181B",t2:"rgba(0,0,0,0.6)",t3:"rgba(0,0,0,0.42)",t4:"rgba(0,0,0,0.28)",
+    gl:"rgba(255,255,255,0.88)",gB:"rgba(0,0,0,0.08)",gS:"rgba(255,255,255,0.97)",
+    sf:"rgba(0,0,0,0.025)",sB:"rgba(0,0,0,0.08)",sH:"rgba(0,0,0,0.06)",
+    cB:"rgba(0,0,0,0.07)",slS:"rgba(0,0,0,0.03)",dS:"rgba(0,0,0,0.025)",
     ac:"#6366F1",aR:"99,102,241",aB:"rgba(99,102,241,0.08)",aT:"#4F46E5",
-    ch:.45,chB:.5,chG:.1,chI:"rgba(255,255,255,0.3)",
+    ch:.28,chB:.22,chG:.08,chI:"rgba(255,255,255,0.3)",
     se:"rgba(99,102,241,0.06)",seO:"rgba(99,102,241,0.2)",fO:"rgba(99,102,241,0.4)",
-    tB:"rgba(99,102,241,0.025)",tH:"rgba(99,102,241,0.05)",tBd:"rgba(99,102,241,0.35)",
-    mB:"rgba(255,255,255,0.97)",mO:"rgba(0,0,0,0.2)",hB:"rgba(0,0,0,0.04)",wB:.08,
+    tB:"rgba(99,102,241,0.025)",tH:"rgba(99,102,241,0.04)",tBd:"rgba(99,102,241,0.35)",
+    mB:"rgba(255,255,255,0.97)",mO:"rgba(0,0,0,0.25)",hB:"rgba(0,0,0,0.04)",wB:.08,
     dn:"#DC2626",wn:"#D97706",ok:"#16A34A",sc:"rgba(0,0,0,0.08)",eH:"rgba(0,0,0,0.015)",
     gw:[]}
 };
@@ -123,8 +123,8 @@ function BulkModal({ emps, onApply, onClose, t }) {
   }
 
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", background: t.mO, backdropFilter: "blur(12px)" }} onClick={onClose}>
-      <div onClick={function(e) { e.stopPropagation(); }} style={{ background: t.mB, border: "1px solid " + t.gB, borderRadius: 20, padding: 28, width: 560, maxHeight: "85vh", overflow: "auto", boxShadow: "0 24px 80px rgba(0,0,0,0.3)" }}>
+    <div style={{ position: "fixed", inset: 0, zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", background: t.mO, backdropFilter: "blur(20px) saturate(1.2)" }} onClick={onClose}>
+      <div onClick={function(e) { e.stopPropagation(); }} style={{ background: t.mB, border: "1px solid " + t.gB, borderRadius: 16, padding: 32, width: 560, maxHeight: "85vh", overflow: "auto", boxShadow: "0 24px 80px rgba(0,0,0,0.35), 0 0 0 1px " + t.gB }}>
         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
           <span style={{ fontSize: 16, fontWeight: 700 }}>Skupinové přiřazení</span>
           <button onClick={onClose} style={{ background: t.sf, border: "1px solid " + t.sB, color: t.t2, cursor: "pointer", padding: "2px 10px", borderRadius: 10, fontSize: 16, fontFamily: "inherit" }}>✕</button>
@@ -776,7 +776,7 @@ function Inner() {
     return g;
   }
 
-  function B(x) { return Object.assign({ background: t.sf, border: "1px solid " + t.sB, color: t.t2, cursor: "pointer", padding: "5px 10px", borderRadius: 10, fontSize: 13, fontFamily: "inherit", fontWeight: 500, transition: "all 0.2s" }, x || {}); }
+  function B(x) { return Object.assign({ background: t.sf, border: "1px solid " + t.sB, color: t.t2, cursor: "pointer", padding: "5px 10px", borderRadius: 8, fontSize: 13, fontFamily: "inherit", fontWeight: 500, letterSpacing: "-0.01em", transition: "all 0.15s ease" }, x || {}); }
 
   // Render cell - now c is an array of items
   function renderCell(emp, di, g, gi) {
@@ -817,14 +817,14 @@ function Inner() {
         onDrop={function(e) { e.preventDefault(); dropChip(getSlotId(e)); }}
         className="cell-td"
         style={{
-          padding: 0, border: dark ? "1px solid " + t.cB : "1px solid rgba(0,0,0,0.12)", borderRadius: 8,
-          background: iS ? t.se : (inRow && inCol) ? (dark ? "rgba(255,255,255,0.08)" : "#F8F8FA") : crossHl ? (dark ? "rgba(255,255,255,0.05)" : "#F3F3F6") : dark ? "rgba(255,255,255,0.03)" : "#fff",
+          padding: 0, border: "1px solid " + t.cB, borderRadius: 8,
+          background: iS ? t.se : (inRow && inCol) ? (dark ? "rgba(255,255,255,0.06)" : "#F6F6FA") : crossHl ? (dark ? "rgba(255,255,255,0.035)" : "#F5F5F9") : dark ? "rgba(255,255,255,0.03)" : "#FAFAFC",
           cursor: sel ? "crosshair" : "cell", verticalAlign: "top", height: 42,
           outline: iF ? "2px solid " + t.fO : iS ? "1px solid " + t.seO : "none",
           outlineOffset: -1,
           overflow: "hidden",
           transition: "transform 0.15s ease, box-shadow 0.15s ease, background 0.1s ease",
-          boxShadow: (inRow && inCol && !iS) ? (dark ? "0 0 0 1px rgba(255,255,255,0.15)" : "0 0 0 1px rgba(0,0,0,0.18)") : dark ? "none" : "0 1px 2px rgba(0,0,0,0.03)",
+          boxShadow: (inRow && inCol && !iS) ? (dark ? "0 0 0 1px rgba(255,255,255,0.12)" : "0 0 0 1px rgba(0,0,0,0.14)") : dark ? "none" : "0 1px 2px rgba(0,0,0,0.02)",
         }}>
         {viewMode === "capacity" ? (
           <div style={{ height: 36, borderRadius: 6, background: hasContent ? (isHol ? t.sf : items.length > 1 ? "linear-gradient(90deg," + items.map(function(c) { return "rgba(" + rg(c.co) + ",0.35)"; }).join(",") + ")" : "rgba(" + rg(firstColor) + ",0.3)") : "transparent", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -898,8 +898,8 @@ function Inner() {
                     background: hol ? t.sf : ho ? "rgba(" + rg(c.co) + ",0.12)" : "rgba(" + rg(c.co) + "," + t.ch + ")",
                     color: hol ? t.t4 : ho ? c.co + "90" : c.co,
                     border: chipSel
-                      ? "2px solid " + c.co
-                      : ho ? "2px dashed rgba(" + rg(c.co) + ",0.3)" : "2px solid rgba(" + rg(c.co) + "," + t.chB + ")",
+                      ? "1.5px solid " + c.co
+                      : ho ? "1.5px dashed rgba(" + rg(c.co) + ",0.25)" : "1px solid rgba(" + rg(c.co) + "," + t.chB + ")",
                     boxShadow: chipSel
                       ? "0 0 0 2px rgba(" + rg(c.co) + ",0.15)"
                       : "none",
@@ -951,7 +951,7 @@ function Inner() {
   function headerDays() {
     var r = [];
     for (var di = 0; di < 5; di++) {
-      r.push(<th key={"hd" + di} colSpan={5} style={{ position: "sticky", top: 0, zIndex: 20, padding: "8px 4px", textAlign: "center", fontSize: 12, fontWeight: 700, background: isN(di) ? (dark ? "rgba(129,140,248,0.08)" : t.tH) : t.bg, color: isN(di) ? t.aT : t.t2, borderBottom: isN(di) ? "2px solid " + t.tBd : "1px solid " + t.cB, borderRadius: 8 }}>{DY[di]} <span style={{ fontWeight: 400, opacity: 0.5 }}>{fD(addD(wk, di))}</span></th>);
+      r.push(<th key={"hd" + di} colSpan={5} style={{ position: "sticky", top: 0, zIndex: 20, padding: "8px 4px", textAlign: "center", fontSize: 12.5, fontWeight: 700, letterSpacing: "-0.01em", background: isN(di) ? (dark ? "rgba(129,140,248,0.06)" : "rgba(99,102,241,0.04)") : t.bg, color: isN(di) ? t.aT : t.t2, borderBottom: isN(di) ? "2px solid " + t.ac : "1px solid " + t.cB, borderRadius: 6 }}>{DY[di]} <span style={{ fontWeight: 400, opacity: 0.5 }}>{fD(addD(wk, di))}</span></th>);
       if (di < 4) r.push(<th key={"hdg" + di} style={{ position: "sticky", top: 0, zIndex: 20, padding: 0, width: 10, background: t.bg, borderRadius: 4 }} />);
     }
     return r;
@@ -982,8 +982,8 @@ function Inner() {
       if (emp.r !== prev) {
         rows.push(
           <tr key={"div-" + emp.n}>
-            <td colSpan={30} style={{ padding: "10px 12px 5px", fontSize: 10, fontWeight: 600, letterSpacing: "0.04em", color: ri.c, borderTop: idx > 0 ? "1px solid " + t.cB : "none" }}>
-              <span style={{ padding: "4px 12px", borderRadius: 6, background: "rgba(" + rg(ri.c) + ",0.1)", borderLeft: "3px solid " + ri.c }}>{emp.r}</span>
+            <td colSpan={30} style={{ padding: "12px 12px 6px", fontSize: 9.5, fontWeight: 600, letterSpacing: "0.05em", color: ri.c, borderTop: idx > 0 ? "1px solid " + t.cB : "none" }}>
+              <span style={{ padding: "4px 12px", borderRadius: 6, background: "rgba(" + rg(ri.c) + ",0.08)", borderLeft: "2px solid " + ri.c }}>{emp.r}</span>
             </td>
           </tr>
         );
@@ -993,12 +993,12 @@ function Inner() {
         <tr key={emp.n} className="er">
           <td className="emp-name" onContextMenu={function(e) { e.preventDefault(); setRoleMenu({ x: e.clientX, y: e.clientY, emp: emp.n, cur: emp.r }); }}
             onMouseEnter={function() { setHoverCell(emp.n + "|-1"); }}
-            style={{ padding: "0 12px", position: "sticky", left: 0, zIndex: 10, background: (hoverCell && hoverCell.split("|")[0] === emp.n) ? (dark ? "#1a1a1f" : "#E8E8ED") : dark ? "#0c0c0e" : "#F4F4F7", borderLeft: "3px solid " + ri.c, cursor: "context-menu", borderRadius: 8, height: 42, verticalAlign: "middle", border: "none" }}>
+            style={{ padding: "0 12px", position: "sticky", left: 0, zIndex: 10, background: (hoverCell && hoverCell.split("|")[0] === emp.n) ? (dark ? "#151518" : "#E8E8ED") : dark ? "#0c0c0e" : "#F4F4F7", borderLeft: "2px solid " + ri.c, cursor: "context-menu", borderRadius: 8, height: 42, verticalAlign: "middle", border: "none" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <span style={{ fontSize: 12, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{emp.n}</span>
+              <span style={{ fontSize: 12.5, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", letterSpacing: "-0.01em" }}>{emp.n}</span>
               <span style={{ fontSize: 10, fontWeight: 600, color: l === 0 ? t.t4 : l >= 13 ? t.dn : l >= 9 ? t.wn : t.t3, flexShrink: 0 }}>{l}</span>
             </div>
-            <div style={{ height: 3, borderRadius: 2, background: t.sf, marginTop: 2 }}>
+            <div style={{ height: 2, borderRadius: 2, background: t.sf, marginTop: 3 }}>
               <div style={{ height: "100%", borderRadius: 2, width: (pct * 100) + "%", background: l >= 13 ? t.dn : l >= 9 ? t.wn : t.ac, transition: "width 0.3s ease", opacity: l === 0 ? 0 : 0.7 }} />
             </div>
           </td>
@@ -1015,10 +1015,10 @@ function Inner() {
 
 
       {/* HEADER */}
-      <div style={{ padding: "0 12px", height: 48, flexShrink: 0, background: t.gl, backdropFilter: "blur(40px) saturate(1.5)", borderBottom: "1px solid " + t.gB, display: "flex", alignItems: "center", gap: 8, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+      <div style={{ padding: "0 16px", height: 50, flexShrink: 0, background: t.gl, backdropFilter: "blur(40px) saturate(1.5)", borderBottom: "1px solid " + t.gB, display: "flex", alignItems: "center", gap: 8, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div style={{ width: 28, height: 28, borderRadius: 8, background: t.tx, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, color: t.bg }}>P</div>
-          <span style={{ fontWeight: 600, fontSize: 14, letterSpacing: "-0.02em", color: t.tx }}>Plánovačka</span>
+          <div style={{ width: 30, height: 30, borderRadius: 9, background: "linear-gradient(135deg, #818CF8, #6366F1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: "#fff", boxShadow: "0 2px 8px rgba(99,102,241,0.25)" }}>P</div>
+          <span style={{ fontWeight: 600, fontSize: 15, letterSpacing: "-0.03em", color: t.tx }}>Plánovačka</span>
         </div>
 
         <div style={{ display: "flex", gap: 2, alignItems: "center", marginLeft: "auto" }}>
@@ -1055,8 +1055,8 @@ function Inner() {
           return <button key={c.n}
             onClick={function() { setSel(s ? null : c); setHoMode(false); setVacMode(false); }}
             onDoubleClick={function(e) { e.stopPropagation(); setCliFilter(f ? null : c.n); }}
-            style={{ padding: "5px 14px 5px 5px", borderRadius: 50, cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 8, flexShrink: 0, whiteSpace: "nowrap", border: s ? "2px solid " + c.c : "2px solid " + (f ? c.c + "60" : "transparent"), background: s ? "rgba(" + rg(c.c) + ",0.22)" : f ? "rgba(" + rg(c.c) + ",0.12)" : "rgba(" + rg(c.c) + ",0.08)", color: s ? c.c : t.tx, boxShadow: s ? "0 0 0 3px rgba(" + rg(c.c) + ",0.15), 0 2px 8px rgba(" + rg(c.c) + ",0.1)" : "none", opacity: cliFilter && !f && !s ? 0.3 : 1 }}>
-            <span style={{ width: 28, height: 28, borderRadius: 50, background: s ? c.c : "rgba(" + rg(c.c) + ",0.25)", color: s ? (dark ? "#111" : "#fff") : c.c, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 700, flexShrink: 0, letterSpacing: "0.02em", transition: "all 0.15s" }}>{c.i || c.n.slice(0, 2)}</span>
+            style={{ padding: "4px 12px 4px 4px", borderRadius: 20, cursor: "pointer", fontFamily: "inherit", fontSize: 11.5, fontWeight: 600, display: "flex", alignItems: "center", gap: 6, flexShrink: 0, whiteSpace: "nowrap", border: s ? "1.5px solid " + c.c : "1.5px solid " + (f ? c.c + "60" : "transparent"), background: s ? "rgba(" + rg(c.c) + ",0.20)" : f ? "rgba(" + rg(c.c) + ",0.10)" : "rgba(" + rg(c.c) + ",0.06)", color: s ? c.c : t.tx, boxShadow: s ? "0 0 0 3px rgba(" + rg(c.c) + ",0.12), 0 2px 8px rgba(" + rg(c.c) + ",0.08)" : "none", opacity: cliFilter && !f && !s ? 0.3 : 1, transition: "all 0.15s ease" }}>
+            <span style={{ width: 24, height: 24, borderRadius: 12, background: s ? c.c : "rgba(" + rg(c.c) + ",0.22)", color: s ? (dark ? "#111" : "#fff") : c.c, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 8.5, fontWeight: 700, flexShrink: 0, letterSpacing: "0.02em", transition: "all 0.15s ease" }}>{c.i || c.n.slice(0, 2)}</span>
             {c.n}
           </button>;
         })}
@@ -1089,7 +1089,7 @@ function Inner() {
 
       {/* TABLE - single scrollable container for header + body */}
       <div style={{ flex: 1, overflow: "auto", padding: "0 16px 60px" }}>
-        <table onMouseLeave={function() { setHoverCell(null); }} style={{ borderCollapse: "separate", borderSpacing: "3px 3px", width: "100%", minWidth: 900, tableLayout: "fixed" }}>
+        <table onMouseLeave={function() { setHoverCell(null); }} style={{ borderCollapse: "separate", borderSpacing: "2px 2px", width: "100%", minWidth: 900, tableLayout: "fixed" }}>
           <colgroup>
             <col style={{ width: 140 }} />
             {headerCols()}
@@ -1124,8 +1124,8 @@ function Inner() {
 
       {/* SEND MODAL */}
       {showSend && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", background: t.mO, backdropFilter: "blur(12px)" }} onClick={function() { setShowSend(false); }}>
-          <div onClick={function(e) { e.stopPropagation(); }} style={{ background: t.mB, border: "1px solid " + t.gB, borderRadius: 20, padding: 28, width: 520, maxHeight: "85vh", overflow: "auto", boxShadow: "0 24px 80px rgba(0,0,0,0.3)" }}>
+        <div style={{ position: "fixed", inset: 0, zIndex: 500, display: "flex", alignItems: "center", justifyContent: "center", background: t.mO, backdropFilter: "blur(20px) saturate(1.2)" }} onClick={function() { setShowSend(false); }}>
+          <div onClick={function(e) { e.stopPropagation(); }} style={{ background: t.mB, border: "1px solid " + t.gB, borderRadius: 16, padding: 32, width: 520, maxHeight: "85vh", overflow: "auto", boxShadow: "0 24px 80px rgba(0,0,0,0.35), 0 0 0 1px " + t.gB }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
               <span style={{ fontSize: 16, fontWeight: 700 }}>📧 Rozeslat plány – {fD(wk)} – {fD(addD(wk, 4))}</span>
               <button onClick={function() { setShowSend(false); }} style={{ background: t.sf, border: "1px solid " + t.sB, color: t.t2, cursor: "pointer", padding: "2px 10px", borderRadius: 10, fontSize: 16, fontFamily: "inherit" }}>✕</button>
@@ -1216,7 +1216,7 @@ function Inner() {
         }
 
         return (
-          <div style={{ position: "fixed", left: Math.min(ctx.x, window.innerWidth - 250), top: ctx.y > window.innerHeight * 0.6 ? "auto" : ctx.y, bottom: ctx.y > window.innerHeight * 0.6 ? (window.innerHeight - ctx.y) : "auto", zIndex: 1000, background: t.gS, backdropFilter: "blur(40px) saturate(1.8)", border: "1px solid " + t.gB, borderRadius: 16, padding: 6, minWidth: 220, maxHeight: "60vh", overflowY: "auto", boxShadow: "0 16px 56px rgba(0,0,0,0.25)" }} onClick={function(e) { e.stopPropagation(); }}>
+          <div style={{ position: "fixed", left: Math.min(ctx.x, window.innerWidth - 250), top: ctx.y > window.innerHeight * 0.6 ? "auto" : ctx.y, bottom: ctx.y > window.innerHeight * 0.6 ? (window.innerHeight - ctx.y) : "auto", zIndex: 1000, background: t.gS, backdropFilter: "blur(40px) saturate(1.8)", border: "1px solid " + t.gB, borderRadius: 12, padding: 4, minWidth: 220, maxHeight: "60vh", overflowY: "auto", boxShadow: "0 12px 40px rgba(0,0,0,0.3), 0 0 0 1px " + t.gB }} onClick={function(e) { e.stopPropagation(); }}>
 
             {/* Current items — click to remove */}
             {curItems.length > 0 && (
@@ -1266,7 +1266,7 @@ function Inner() {
 
       {/* ROLE PICKER MENU */}
       {roleMenu && (
-        <div style={{ position: "fixed", left: Math.min(roleMenu.x, window.innerWidth - 220), top: Math.min(roleMenu.y, window.innerHeight - 300), zIndex: 1000, background: t.gS, backdropFilter: "blur(40px) saturate(1.8)", border: "1px solid " + t.gB, borderRadius: 16, padding: 6, minWidth: 200, boxShadow: "0 16px 56px rgba(0,0,0,0.25)" }} onClick={function(e) { e.stopPropagation(); }}>
+        <div style={{ position: "fixed", left: Math.min(roleMenu.x, window.innerWidth - 220), top: Math.min(roleMenu.y, window.innerHeight - 300), zIndex: 1000, background: t.gS, backdropFilter: "blur(40px) saturate(1.8)", border: "1px solid " + t.gB, borderRadius: 12, padding: 4, minWidth: 200, boxShadow: "0 12px 40px rgba(0,0,0,0.3), 0 0 0 1px " + t.gB }} onClick={function(e) { e.stopPropagation(); }}>
           <div style={{ padding: "6px 12px 3px", fontSize: 9, fontWeight: 700, color: t.t3, letterSpacing: "0.06em" }}>TÝM – {roleMenu.emp}</div>
           {Object.entries(RO).map(function(entry) {
             var role = entry[0], info = entry[1];
@@ -1284,7 +1284,7 @@ function Inner() {
 
       {/* FLOATING BAR */}
       {hoMode && !sel && (
-        <div style={{ position: "fixed", bottom: 16, left: "50%", transform: "translateX(-50%)", zIndex: 200, background: t.gl, backdropFilter: "blur(40px)", borderRadius: 10, padding: "8px 20px", border: "1px solid " + t.ac, boxShadow: "0 4px 20px rgba(0,0,0,0.12)", display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ position: "fixed", bottom: 16, left: "50%", transform: "translateX(-50%)", zIndex: 200, background: t.gl, backdropFilter: "blur(40px)", borderRadius: 12, padding: "10px 24px", border: "1px solid " + t.ac, boxShadow: "0 8px 32px rgba(0,0,0,0.15), 0 0 0 1px " + t.gB, display: "flex", alignItems: "center", gap: 10 }}>
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 8l6-5.5L14 8" stroke={t.aT} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M4 9v4.5a.5.5 0 00.5.5h2.5V11h2v3h2.5a.5.5 0 00.5-.5V9" stroke={t.aT} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           <span style={{ fontSize: 12, fontWeight: 600, color: t.aT }}>Homeoffice</span>
           <span style={{ fontSize: 10, color: t.t4 }}>klikej na bunky</span>
@@ -1292,14 +1292,14 @@ function Inner() {
         </div>
       )}
       {vacMode && !sel && (
-        <div style={{ position: "fixed", bottom: 16, left: "50%", transform: "translateX(-50%)", zIndex: 200, background: t.gl, backdropFilter: "blur(40px)", borderRadius: 10, padding: "8px 20px", border: "1px solid " + t.wn, boxShadow: "0 4px 20px rgba(0,0,0,0.12)", display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ position: "fixed", bottom: 16, left: "50%", transform: "translateX(-50%)", zIndex: 200, background: t.gl, backdropFilter: "blur(40px)", borderRadius: 12, padding: "10px 24px", border: "1px solid " + t.wn, boxShadow: "0 8px 32px rgba(0,0,0,0.15), 0 0 0 1px " + t.gB, display: "flex", alignItems: "center", gap: 10 }}>
           <span style={{ fontSize: 12, fontWeight: 600, color: t.wn }}>Dovolenka</span>
           <span style={{ fontSize: 10, color: t.t4 }}>klikej na bunky</span>
           <button onClick={function() { setVacMode(false); }} style={B({ padding: "2px 8px", fontSize: 10 })}>Done</button>
         </div>
       )}
       {sel && (
-        <div style={{ position: "fixed", bottom: 16, left: "50%", transform: "translateX(-50%)", zIndex: 200, background: t.gl, backdropFilter: "blur(40px)", borderRadius: 10, padding: "8px 20px", border: "1px solid " + t.gB, boxShadow: "0 4px 20px rgba(0,0,0,0.12)", display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ position: "fixed", bottom: 16, left: "50%", transform: "translateX(-50%)", zIndex: 200, background: t.gl, backdropFilter: "blur(40px)", borderRadius: 12, padding: "10px 24px", border: "1px solid " + t.gB, boxShadow: "0 8px 32px rgba(0,0,0,0.15), 0 0 0 1px " + t.gB, display: "flex", alignItems: "center", gap: 10 }}>
           <span style={{ width: 8, height: 8, borderRadius: 3, background: sel.c }} />
           <span style={{ fontSize: 12, fontWeight: 600, color: t.tx }}>{sel.n}</span>
           <span style={{ fontSize: 10, color: t.t4 }}>click = add | dblclick = edit | backspace = delete | right = menu</span>
@@ -1310,15 +1310,20 @@ function Inner() {
 
       <style>{
         "* { box-sizing: border-box; }" +
-        "::-webkit-scrollbar { width: 6px; height: 6px; }" +
+        "::-webkit-scrollbar { width: 7px; height: 7px; }" +
         "::-webkit-scrollbar-track { background: transparent; }" +
-        "::-webkit-scrollbar-thumb { background: " + t.sc + "; border-radius: 3px; }" +
-        ".ea { opacity: 0; transition: opacity 0.2s; }" +
+        "::-webkit-scrollbar-thumb { background: " + t.sc + "; border-radius: 4px; }" +
+        "::-webkit-scrollbar-thumb:hover { background: " + (dark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.15)") + "; }" +
+        ".ea { opacity: 0; transition: opacity 0.15s ease; }" +
         ".er:hover .ea { opacity: 1; }" +
-        ".cell-td { position: relative; }" +
-        ".cell-td:hover { transform: scale(1.02); z-index: 5; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }" +
+        ".cell-td { position: relative; transition: transform 0.12s ease, box-shadow 0.12s ease; }" +
+        ".cell-td:hover { transform: scale(1.015); z-index: 5; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }" +
+        ".ci { transition: background 0.1s ease; }" +
         ".ci:hover { background: " + t.sH + " !important; }" +
-        "td { user-select: none; }" +
+        "td { user-select: none; -webkit-user-select: none; }" +
+        "input:focus { box-shadow: 0 0 0 2px " + t.fO + " !important; }" +
+        "button { transition: all 0.15s ease; }" +
+        "button:active { transform: scale(0.97); }" +
         "@media (max-width: 768px) {" +
         "  .cell-td:hover { transform: none !important; }" +
         "  .emp-name { position: static !important; }" +
@@ -1367,9 +1372,9 @@ function LoginScreen() {
 
   return (
     <div style={{ height: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#09090B", fontFamily: "'Inter', system-ui, sans-serif" }}>
-      <form onSubmit={submit} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, padding: 40, width: 340, textAlign: "center" }}>
-        <div style={{ width: 48, height: 48, borderRadius: 14, background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 700, color: "#09090B", margin: "0 auto 16px" }}>P</div>
-        <div style={{ fontSize: 20, fontWeight: 700, color: "#EEEEF2", marginBottom: 4 }}>Plánovačka</div>
+      <form onSubmit={submit} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 16, padding: 44, width: 340, textAlign: "center", boxShadow: "0 24px 80px rgba(0,0,0,0.4)" }}>
+        <div style={{ width: 48, height: 48, borderRadius: 14, background: "linear-gradient(135deg, #818CF8, #6366F1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 700, color: "#fff", margin: "0 auto 16px", boxShadow: "0 4px 16px rgba(99,102,241,0.3)" }}>P</div>
+        <div style={{ fontSize: 20, fontWeight: 700, color: "#F0F0F4", marginBottom: 4, letterSpacing: "-0.03em" }}>Plánovačka</div>
         <div style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 24 }}>Zadej heslo pro přístup</div>
         <input
           type="password"
@@ -1380,7 +1385,7 @@ function LoginScreen() {
           style={{ width: "100%", boxSizing: "border-box", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, padding: "12px 16px", color: "#EEEEF2", fontSize: 14, fontFamily: "inherit", outline: "none", marginBottom: 12 }}
         />
         {err && <div style={{ fontSize: 12, color: "#F87171", marginBottom: 8 }}>{err}</div>}
-        <button type="submit" style={{ width: "100%", padding: "12px 0", borderRadius: 12, background: "#818CF8", color: "#fff", fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer", fontFamily: "inherit" }}>Vstoupit</button>
+        <button type="submit" style={{ width: "100%", padding: "12px 0", borderRadius: 12, background: "linear-gradient(135deg, #818CF8, #6366F1)", color: "#fff", fontWeight: 700, fontSize: 14, border: "none", cursor: "pointer", fontFamily: "inherit", boxShadow: "0 4px 16px rgba(129,140,248,0.3)", transition: "all 0.15s ease" }}>Vstoupit</button>
       </form>
     </div>
   );
