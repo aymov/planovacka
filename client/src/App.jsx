@@ -77,13 +77,13 @@ const EM = [
 
 const CL = [
   { n: "ČSOB", c: "#2563EB", i: "ČS" }, { n: "SKO", c: "#16A34A", i: "SK" },
-  { n: "Kozel", c: "#CA8A04", i: "KZ" }, { n: "LIDL", c: "#DC2626", i: "LI" },
-  { n: "BS!", c: "#9333EA", i: "BS" }, { n: "Joya", c: "#EA580C", i: "JO" },
-  { n: "BK", c: "#E11D48", i: "BK" }, { n: "Brit", c: "#0891B2", i: "BR" },
-  { n: "PVZP", c: "#059669", i: "PV" }, { n: "Kingsbet", c: "#D97706", i: "KB" },
-  { n: "Lučina", c: "#C026D3", i: "LU" }, { n: "Hipp", c: "#0D9488", i: "HI" },
-  { n: "MANA", c: "#EA580C", i: "MA" }, { n: "Šariš", c: "#B45309", i: "ŠA" },
-  { n: "Porsche", c: "#6366F1", i: "PO" }, { n: "INT", c: "#475569", i: "IN" },
+  { n: "Kozel", c: "#A16207", i: "KZ" }, { n: "LIDL", c: "#DC2626", i: "LI" },
+  { n: "BS!", c: "#9333EA", i: "BS" }, { n: "Joya", c: "#E85D04", i: "JO" },
+  { n: "BK", c: "#BE185D", i: "BK" }, { n: "Brit", c: "#0891B2", i: "BR" },
+  { n: "PVZP", c: "#0F766E", i: "PV" }, { n: "Kingsbet", c: "#B91C1C", i: "KB" },
+  { n: "Lučina", c: "#C026D3", i: "LU" }, { n: "Hipp", c: "#15803D", i: "HI" },
+  { n: "MANA", c: "#7C3AED", i: "MA" }, { n: "Šariš", c: "#0369A1", i: "ŠA" },
+  { n: "Porsche", c: "#4F46E5", i: "PO" }, { n: "INT", c: "#64748B", i: "IN" },
 ];
 
 const SL = ["9:30–12", "13–15", "15–18"];
@@ -954,8 +954,13 @@ function Inner() {
   function headerDays() {
     var r = [];
     for (var di = 0; di < 5; di++) {
-      r.push(<th key={"hd" + di} colSpan={5} onClick={setZoomDay.bind(null, zoomDay === di ? null : di)} style={{ position: "sticky", top: 0, zIndex: 20, padding: "8px 4px", textAlign: "center", fontSize: 12.5, fontWeight: 700, letterSpacing: "-0.01em", background: isN(di) ? (dark ? "rgba(14,14,20,0.85)" : "rgba(240,240,246,0.85)") : (dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)"), backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", color: zoomDay === di ? t.aT : isN(di) ? t.aT : t.t2, borderBottom: zoomDay === di ? "2px solid " + t.ac : isN(di) ? "2px solid " + t.ac : "1px solid " + t.cB, borderRadius: 6, cursor: "pointer", transition: "all 0.2s ease" }}>{DY[di]} <span style={{ fontWeight: 400, opacity: 0.5 }}>{fD(addD(wk, di))}</span>{zoomDay === di && <span style={{ marginLeft: 6, fontSize: 9, opacity: 0.4 }}>x</span>}</th>);
-      if (di < 4) r.push(<th key={"hdg" + di} style={{ position: "sticky", top: 0, zIndex: 20, padding: 0, width: 10, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 4 }} />);
+      var isActive = zoomDay === di || isN(di);
+      r.push(<th key={"hd" + di} colSpan={5} onClick={setZoomDay.bind(null, zoomDay === di ? null : di)} style={{ position: "sticky", top: 0, zIndex: 20, padding: "6px 4px", textAlign: "center", background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "none", cursor: "pointer", transition: "all 0.2s ease" }}>
+        <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "5px 8px", borderRadius: 14, fontSize: 12, fontWeight: 700, letterSpacing: "-0.01em", color: isActive ? (dark ? "#fff" : "#fff") : t.t2, background: isActive ? t.ac : (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), border: isActive ? "none" : "1px solid " + (dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"), boxShadow: isActive ? "0 2px 8px rgba(" + rg(t.ac) + ",0.25)" : "none", transition: "all 0.2s ease" }}>
+          {DS[di]} <span style={{ fontWeight: 400, fontSize: 10.5, opacity: isActive ? 0.85 : 0.5 }}>{fD(addD(wk, di))}</span>{zoomDay === di && <span style={{ fontSize: 9, opacity: 0.6, marginLeft: 2 }}>✕</span>}
+        </span>
+      </th>);
+      if (di < 4) r.push(<th key={"hdg" + di} style={{ position: "sticky", top: 0, zIndex: 20, padding: 0, width: 10, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }} />);
     }
     return r;
   }
@@ -964,10 +969,12 @@ function Inner() {
     var r = [];
     for (var di = 0; di < 5; di++) {
       for (var si = 0; si < 3; si++) {
-        r.push(<th key={"hs" + di + si} style={{ position: "sticky", top: 36, zIndex: 20, padding: "4px 2px", textAlign: "center", fontSize: 9, fontWeight: 500, color: t.t4, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderBottom: "1px solid " + t.cB, borderRadius: 4 }}>{SL[si]}</th>);
-        if (si < 2) r.push(<th key={"hss" + di + si} style={{ position: "sticky", top: 36, zIndex: 20, width: 1, padding: 0, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 2 }} />);
+        r.push(<th key={"hs" + di + si} style={{ position: "sticky", top: 38, zIndex: 20, padding: "3px 2px", textAlign: "center", background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "none" }}>
+          <span style={{ display: "block", padding: "3px 4px", borderRadius: 8, fontSize: 8.5, fontWeight: 600, color: t.t3, background: dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)", border: "1px solid " + (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), letterSpacing: "0.01em", textAlign: "center" }}>{SL[si]}</span>
+        </th>);
+        if (si < 2) r.push(<th key={"hss" + di + si} style={{ position: "sticky", top: 38, zIndex: 20, width: 1, padding: 0, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }} />);
       }
-      if (di < 4) r.push(<th key={"hsg" + di} style={{ position: "sticky", top: 36, zIndex: 20, width: 10, padding: 0, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 4 }} />);
+      if (di < 4) r.push(<th key={"hsg" + di} style={{ position: "sticky", top: 38, zIndex: 20, width: 10, padding: 0, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }} />);
     }
     return r;
   }
@@ -985,8 +992,8 @@ function Inner() {
       if (emp.r !== prev) {
         rows.push(
           <tr key={"div-" + emp.n}>
-            <td colSpan={30} style={{ padding: "12px 12px 6px", fontSize: 9.5, fontWeight: 600, letterSpacing: "0.05em", color: ri.c, borderTop: idx > 0 ? "1px solid " + t.cB : "none" }}>
-              <span style={{ padding: "4px 12px", borderRadius: 6, background: "rgba(" + rg(ri.c) + ",0.08)", borderLeft: "2px solid " + ri.c }}>{emp.r}</span>
+            <td colSpan={30} style={{ padding: "10px 8px 4px", fontSize: 9, fontWeight: 600, letterSpacing: "0.04em", color: ri.c, borderTop: idx > 0 ? "1px solid " + t.cB : "none" }}>
+              <span style={{ display: "inline-block", maxWidth: 130, padding: "3px 10px", borderRadius: 10, background: "rgba(" + rg(ri.c) + ",0.08)", borderLeft: "2px solid " + ri.c, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{emp.r}</span>
             </td>
           </tr>
         );
@@ -1099,7 +1106,7 @@ function Inner() {
           </colgroup>
           <thead>
             <tr>
-              <th className="week-nav" rowSpan={2} style={{ position: "sticky", top: 0, left: 0, zIndex: 30, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "none", padding: "4px 6px", verticalAlign: "middle" }}>
+              <th className="week-nav" style={{ position: "sticky", top: 0, left: 0, zIndex: 30, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "none", padding: "4px 6px", verticalAlign: "middle" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
                   <button onClick={function() { setWk(addD(wk, -7)); }} style={B({ padding: "3px 6px", fontSize: 11 })}>‹</button>
                   <div style={{ textAlign: "center", flex: 1, minWidth: 0 }}>
@@ -1108,11 +1115,13 @@ function Inner() {
                   </div>
                   <button onClick={function() { setWk(addD(wk, 7)); }} style={B({ padding: "3px 6px", fontSize: 11 })}>›</button>
                 </div>
-                <button onClick={function() { setWk(getMonday(new Date())); }} style={B({ padding: "2px 0", fontSize: 9, fontWeight: 500, background: thisW ? t.aB : "transparent", color: thisW ? t.aT : t.t4, width: "100%", marginTop: 2, border: "none" })}>Dnes</button>
               </th>
               {headerDays()}
             </tr>
             <tr>
+              <th className="week-nav" style={{ position: "sticky", top: 38, left: 0, zIndex: 30, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "none", padding: "3px 6px" }}>
+                <button onClick={function() { setWk(getMonday(new Date())); }} style={B({ padding: "3px 0", fontSize: 8.5, fontWeight: 600, background: thisW ? t.aB : (dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)"), color: thisW ? t.aT : t.t3, width: "100%", border: thisW ? "none" : "1px solid " + (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), borderRadius: 8 })}>Dnes</button>
+              </th>
               {headerSlots()}
             </tr>
           </thead>
