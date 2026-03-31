@@ -28,9 +28,9 @@ const TH = {
 };
 
 const RO = {
-  "Copywriters / Ideamakers": { c: "#5A9EC4", e: "Copywriters / Ideamakers" },
-  "Art Department": { c: "#C470A0", e: "Art Department" },
-  "Strategy": { c: "#D4944E", e: "Strategy" },
+  "Copywriters / Ideamakers": { c: "#5A9EC4", e: "CW" },
+  "Art Department": { c: "#C470A0", e: "AD" },
+  "Strategy": { c: "#D4944E", e: "ST" },
 };
 
 const EM = [
@@ -449,7 +449,7 @@ function Inner() {
       push();
       var arr = cellArr(id);
       var isVac = arr.length === 1 && arr[0].cl === "__h";
-      if (isVac) { sC(id, null); } else { sC(id, [{ cl: "__h", co: "#374151", tk: "Dovolenka" }]); }
+      if (isVac) { sC(id, null); } else { sC(id, [{ cl: "__h", co: "#374151", tk: "Dovolená" }]); }
       return;
     }
     if (sel) {
@@ -568,8 +568,8 @@ function Inner() {
 
   function clrR(n) { push(); setCs(function(p) { var x = Object.assign({}, p); for (var d = 0; d < 5; d++) for (var s = 0; s < 3; s++) delete x[cI(w, n, d, s)]; return x; }); }
   function flD(n, di) { if (!sel) return; push(); for (var s = 0; s < 3; s++) sC(cI(w, n, di, s), [{ cl: sel.n, co: sel.c, tk: sel.n }]); }
-  function mkH(n, di) { push(); for (var s = 0; s < 3; s++) sC(cI(w, n, di, s), [{ cl: "__h", co: "#374151", tk: "Dovolenka" }]); }
-  function mkHSlot(id) { push(); sC(id, [{ cl: "__h", co: "#374151", tk: "Dovolenka" }]); }
+  function mkH(n, di) { push(); for (var s = 0; s < 3; s++) sC(cI(w, n, di, s), [{ cl: "__h", co: "#374151", tk: "Dovolená" }]); }
+  function mkHSlot(id) { push(); sC(id, [{ cl: "__h", co: "#374151", tk: "Dovolená" }]); }
   function toggleHODay(empN, di) {
     for (var s = 0; s < 3; s++) {
       var key = cI(w, empN, di, s);
@@ -942,7 +942,7 @@ function Inner() {
     var r = [];
     for (var di = 0; di < 5; di++) {
       // When zoomed: zoomed day gets 3x width, others get 0.5x
-      var cw = zoomDay !== null ? (zoomDay === di ? 60 : 18) : undefined;
+      var cw = zoomDay !== null ? (zoomDay === di ? 100 : 30) : 44;
       r.push(<col key={"ca" + di} style={cw ? { width: cw } : undefined} />); r.push(<col key={"s1" + di} style={{ width: 1 }} />);
       r.push(<col key={"cb" + di} style={cw ? { width: cw } : undefined} />); r.push(<col key={"s2" + di} style={{ width: 1 }} />);
       r.push(<col key={"cc" + di} style={cw ? { width: cw } : undefined} />);
@@ -970,7 +970,7 @@ function Inner() {
     for (var di = 0; di < 5; di++) {
       for (var si = 0; si < 3; si++) {
         r.push(<th key={"hs" + di + si} style={{ position: "sticky", top: 38, zIndex: 20, padding: "3px 2px", textAlign: "center", background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "none" }}>
-          <span style={{ display: "block", padding: "3px 4px", borderRadius: 8, fontSize: 8.5, fontWeight: 600, color: t.t3, background: dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)", border: "1px solid " + (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), letterSpacing: "0.01em", textAlign: "center" }}>{SL[si]}</span>
+          <span style={{ display: "block", padding: "3px 4px", borderRadius: 8, fontSize: 8.5, fontWeight: 600, color: t.t3, background: dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.03)", border: "1px solid " + (dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)"), letterSpacing: "0.01em", textAlign: "center", whiteSpace: "nowrap", overflow: "hidden" }}>{SL[si]}</span>
         </th>);
         if (si < 2) r.push(<th key={"hss" + di + si} style={{ position: "sticky", top: 38, zIndex: 20, width: 1, padding: 0, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }} />);
       }
@@ -993,7 +993,7 @@ function Inner() {
         rows.push(
           <tr key={"div-" + emp.n}>
             <td colSpan={30} style={{ padding: "10px 8px 4px", fontSize: 9, fontWeight: 600, letterSpacing: "0.04em", color: ri.c, borderTop: idx > 0 ? "1px solid " + t.cB : "none" }}>
-              <span style={{ display: "inline-block", maxWidth: 130, padding: "3px 10px", borderRadius: 10, background: "rgba(" + rg(ri.c) + ",0.08)", borderLeft: "2px solid " + ri.c, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{emp.r}</span>
+              <span style={{ display: "inline-block", maxWidth: 130, padding: "3px 10px", borderRadius: 20, background: "rgba(" + rg(ri.c) + ",0.08)", border: "1px solid rgba(" + rg(ri.c) + ",0.12)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{emp.r}</span>
             </td>
           </tr>
         );
@@ -1032,7 +1032,7 @@ function Inner() {
         </div>
 
         <div style={{ display: "flex", gap: 2, alignItems: "center", marginLeft: "auto" }}>
-          <button onClick={function() { setViewMode(viewMode === "normal" ? "capacity" : "normal"); }} style={B({ padding: "5px 8px", background: viewMode === "capacity" ? t.aB : t.sf, color: viewMode === "capacity" ? t.aT : t.t3 })} title={viewMode === "capacity" ? "Grid pohled" : "Kapacitni pohled"}>
+          <button onClick={function() { setViewMode(viewMode === "normal" ? "capacity" : "normal"); }} style={B({ padding: "5px 8px", background: viewMode === "capacity" ? t.aB : t.sf, color: viewMode === "capacity" ? t.aT : t.t3 })} title={viewMode === "capacity" ? "Tabulkový pohled" : "Kapacitní pohled"}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/><rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/><rect x="1" y="9" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/><rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/></svg>
           </button>
           <button onClick={function() { setDark(!dark); }} style={B({ padding: "5px 8px" })} title={dark ? "Svetly rezim" : "Tmavy rezim"}>
@@ -1042,7 +1042,7 @@ function Inner() {
           <button onClick={function() { setBulk(true); }} style={B({ padding: "5px 8px" })} title="Skupinove prirazeni">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="2.5" stroke="currentColor" strokeWidth="1.5"/><path d="M1 14c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><circle cx="12" cy="5" r="2" stroke="currentColor" strokeWidth="1.3"/><path d="M13 9c1.66 1 2.5 2.5 2.5 5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
           </button>
-          <button onClick={function() { setShowSend(true); }} style={B({ padding: "5px 8px" })} title="Export a rozeslani">
+          <button onClick={function() { setShowSend(true); }} style={B({ padding: "5px 8px" })} title="Export a rozeslání">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 11v2a1 1 0 001 1h10a1 1 0 001-1v-2M8 2v8M5 5l3-3 3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </button>
           <button onClick={xCSV} style={B({ padding: "5px 8px" })} title="Stahnout CSV">
@@ -1082,11 +1082,11 @@ function Inner() {
           })}
         </div>
         <div style={{ height: 16, width: 1, background: t.sB, flexShrink: 0 }} />
-        <button onClick={function() { setHoMode(!hoMode); if (!hoMode) { setSel(null); setVacMode(false); } }} style={{ padding: "4px 8px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: hoMode ? t.aB : "transparent", color: hoMode ? t.aT : t.t3, border: hoMode ? "1px solid " + t.ac + "40" : "1px solid transparent", borderRadius: 8, cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: 500, transition: "all 0.2s" }} title="Homeoffice rezim">
+        <button onClick={function() { setHoMode(!hoMode); if (!hoMode) { setSel(null); setVacMode(false); } }} style={{ padding: "4px 8px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: hoMode ? t.aB : "transparent", color: hoMode ? t.aT : t.t3, border: hoMode ? "1px solid " + t.ac + "40" : "1px solid transparent", borderRadius: 8, cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: 500, transition: "all 0.2s" }} title="Homeoffice režim">
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M2 8l6-6 6 6M3 7v6a1 1 0 001 1h3v-4h2v4h3a1 1 0 001-1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           <span style={{ fontSize: 10, fontWeight: 500 }}>HO</span>
         </button>
-        <button onClick={function() { setVacMode(!vacMode); if (!vacMode) { setSel(null); setHoMode(false); } }} style={{ padding: "4px 8px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: vacMode ? "rgba(" + rg(t.wn) + ",0.15)" : "transparent", color: vacMode ? t.wn : t.t3, border: vacMode ? "1px solid " + t.wn + "40" : "1px solid transparent", borderRadius: 8, cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: 500, transition: "all 0.2s" }} title="Dovolenka rezim">
+        <button onClick={function() { setVacMode(!vacMode); if (!vacMode) { setSel(null); setHoMode(false); } }} style={{ padding: "4px 8px", display: "flex", alignItems: "center", gap: 4, flexShrink: 0, background: vacMode ? "rgba(" + rg(t.wn) + ",0.15)" : "transparent", color: vacMode ? t.wn : t.t3, border: vacMode ? "1px solid " + t.wn + "40" : "1px solid transparent", borderRadius: 8, cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: 500, transition: "all 0.2s" }} title="Dovolená rezim">
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 3c-3 0-5.5 2-6 4h12c-.5-2-3-4-6-4z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M8 3v11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><path d="M5 14h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
           <span style={{ fontSize: 10, fontWeight: 500 }}>Dov</span>
         </button>
@@ -1101,19 +1101,19 @@ function Inner() {
       <div style={{ flex: 1, overflow: "auto", padding: "0 16px 60px" }}>
         <table onMouseLeave={function() { setHoverCell(null); }} style={{ borderCollapse: "separate", borderSpacing: "2px 2px", width: "100%", minWidth: 900, tableLayout: "fixed" }}>
           <colgroup>
-            <col className="name-col" style={{ width: zoomDay !== null ? 60 : 140 }} />
+            <col className="name-col" style={{ width: 100 }} />
             {headerCols()}
           </colgroup>
           <thead>
             <tr>
               <th className="week-nav" style={{ position: "sticky", top: 0, left: 0, zIndex: 30, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "none", padding: "4px 6px", verticalAlign: "middle" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
-                  <button onClick={function() { setWk(addD(wk, -7)); }} style={B({ padding: "3px 6px", fontSize: 11 })}>‹</button>
+                <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <button onClick={function() { setWk(addD(wk, -7)); }} style={{ width: 28, height: 28, borderRadius: 14, border: "1px solid " + (dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"), background: dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)", color: t.t2, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "inherit", padding: 0, transition: "all 0.15s ease" }}>‹</button>
                   <div style={{ textAlign: "center", flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 11, fontWeight: 600, color: t.tx, whiteSpace: "nowrap" }}>{fD(wk)} – {fD(addD(wk, 4))}</div>
+                    <div style={{ fontSize: 10.5, fontWeight: 600, color: t.tx, whiteSpace: "nowrap" }}>{fD(wk)} – {fD(addD(wk, 4))}</div>
                     <div style={{ fontSize: 9, color: t.t3, fontWeight: 500 }}>{wk.getFullYear()}</div>
                   </div>
-                  <button onClick={function() { setWk(addD(wk, 7)); }} style={B({ padding: "3px 6px", fontSize: 11 })}>›</button>
+                  <button onClick={function() { setWk(addD(wk, 7)); }} style={{ width: 28, height: 28, borderRadius: 14, border: "1px solid " + (dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"), background: dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)", color: t.t2, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "inherit", padding: 0, transition: "all 0.15s ease" }}>›</button>
                 </div>
               </th>
               {headerDays()}
@@ -1266,8 +1266,8 @@ function Inner() {
 
             {/* Actions */}
             <div style={{ padding: "6px 12px 3px", fontSize: 9, fontWeight: 700, color: t.t3, letterSpacing: "0.06em" }}>AKCE</div>
-            <div onClick={function() { mkHSlot(ctx.id); setCtx(null); }} className="ci" style={{ padding: "7px 12px", cursor: "pointer", borderRadius: 10, fontSize: 12, color: t.t3 }}>Dovolenka (tento slot)</div>
-            <div onClick={function() { mkH(eN, dI); setCtx(null); }} className="ci" style={{ padding: "7px 12px", cursor: "pointer", borderRadius: 10, fontSize: 12, color: t.t3 }}>Dovolenka (celý den)</div>
+            <div onClick={function() { mkHSlot(ctx.id); setCtx(null); }} className="ci" style={{ padding: "7px 12px", cursor: "pointer", borderRadius: 10, fontSize: 12, color: t.t3 }}>Dovolená (tento slot)</div>
+            <div onClick={function() { mkH(eN, dI); setCtx(null); }} className="ci" style={{ padding: "7px 12px", cursor: "pointer", borderRadius: 10, fontSize: 12, color: t.t3 }}>Dovolená (celý den)</div>
             <div onClick={function() { toggleHODay(eN, dI); setCtx(null); }} className="ci" style={{ padding: "7px 12px", cursor: "pointer", borderRadius: 10, fontSize: 12, color: isCellHO(ctx.id) ? t.aT : t.t3 }}>{isCellHO(ctx.id) ? "✓ Homeoffice (den)" : "Homeoffice (den)"}</div>
             <div style={{ height: 1, background: t.sB, margin: "4px 8px" }} />
             <div onClick={function() { onDb(ctx.id); setCtx(null); }} className="ci" style={{ padding: "7px 12px", cursor: "pointer", borderRadius: 10, fontSize: 12, color: t.t3 }}>Upravit text</div>
@@ -1305,7 +1305,7 @@ function Inner() {
       )}
       {vacMode && !sel && (
         <div style={{ position: "fixed", bottom: 16, left: "50%", transform: "translateX(-50%)", zIndex: 200, background: t.gl, backdropFilter: "blur(40px)", borderRadius: 12, padding: "10px 24px", border: "1px solid " + t.wn, boxShadow: "0 8px 32px rgba(0,0,0,0.15), 0 0 0 1px " + t.gB, display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: 12, fontWeight: 600, color: t.wn }}>Dovolenka</span>
+          <span style={{ fontSize: 12, fontWeight: 600, color: t.wn }}>Dovolená</span>
           <span style={{ fontSize: 10, color: t.t4 }}>klikej na bunky</span>
           <button onClick={function() { setVacMode(false); }} style={B({ padding: "2px 8px", fontSize: 10 })}>Done</button>
         </div>
@@ -1336,6 +1336,8 @@ function Inner() {
         "input:focus { box-shadow: 0 0 0 2px " + t.fO + " !important; }" +
         "button { transition: all 0.15s ease; }" +
         "button:active { transform: scale(0.97); }" +
+        "col.name-col { width: 100px !important; }" +
+        "th.week-nav, td.emp-name { width: 100px !important; min-width: 100px !important; max-width: 100px !important; overflow: hidden; }" +
         "@media (max-width: 768px) {" +
         "  .cell-td:hover { transform: none !important; }" +
         "  .name-col { width: 60px !important; }" +
