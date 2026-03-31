@@ -951,8 +951,8 @@ function Inner() {
   function headerDays() {
     var r = [];
     for (var di = 0; di < 5; di++) {
-      r.push(<th key={"hd" + di} colSpan={5} style={{ position: "sticky", top: 0, zIndex: 20, padding: "8px 4px", textAlign: "center", fontSize: 12.5, fontWeight: 700, letterSpacing: "-0.01em", background: isN(di) ? (dark ? "#0e0e14" : "#F0F0F6") : t.bg, color: isN(di) ? t.aT : t.t2, borderBottom: isN(di) ? "2px solid " + t.ac : "1px solid " + t.cB, borderRadius: 6 }}>{DY[di]} <span style={{ fontWeight: 400, opacity: 0.5 }}>{fD(addD(wk, di))}</span></th>);
-      if (di < 4) r.push(<th key={"hdg" + di} style={{ position: "sticky", top: 0, zIndex: 20, padding: 0, width: 10, background: t.bg, borderRadius: 4 }} />);
+      r.push(<th key={"hd" + di} colSpan={5} style={{ position: "sticky", top: 0, zIndex: 20, padding: "8px 4px", textAlign: "center", fontSize: 12.5, fontWeight: 700, letterSpacing: "-0.01em", background: isN(di) ? (dark ? "rgba(14,14,20,0.85)" : "rgba(240,240,246,0.85)") : (dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)"), backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", color: isN(di) ? t.aT : t.t2, borderBottom: isN(di) ? "2px solid " + t.ac : "1px solid " + t.cB, borderRadius: 6 }}>{DY[di]} <span style={{ fontWeight: 400, opacity: 0.5 }}>{fD(addD(wk, di))}</span></th>);
+      if (di < 4) r.push(<th key={"hdg" + di} style={{ position: "sticky", top: 0, zIndex: 20, padding: 0, width: 10, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 4 }} />);
     }
     return r;
   }
@@ -961,10 +961,10 @@ function Inner() {
     var r = [];
     for (var di = 0; di < 5; di++) {
       for (var si = 0; si < 3; si++) {
-        r.push(<th key={"hs" + di + si} style={{ position: "sticky", top: 36, zIndex: 20, padding: "4px 2px", textAlign: "center", fontSize: 9, fontWeight: 500, color: t.t4, background: t.bg, borderBottom: "1px solid " + t.cB, borderRadius: 4 }}>{SL[si]}</th>);
-        if (si < 2) r.push(<th key={"hss" + di + si} style={{ position: "sticky", top: 36, zIndex: 20, width: 1, padding: 0, background: t.bg, borderRadius: 2 }} />);
+        r.push(<th key={"hs" + di + si} style={{ position: "sticky", top: 36, zIndex: 20, padding: "4px 2px", textAlign: "center", fontSize: 9, fontWeight: 500, color: t.t4, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderBottom: "1px solid " + t.cB, borderRadius: 4 }}>{SL[si]}</th>);
+        if (si < 2) r.push(<th key={"hss" + di + si} style={{ position: "sticky", top: 36, zIndex: 20, width: 1, padding: 0, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 2 }} />);
       }
-      if (di < 4) r.push(<th key={"hsg" + di} style={{ position: "sticky", top: 36, zIndex: 20, width: 10, padding: 0, background: t.bg, borderRadius: 4 }} />);
+      if (di < 4) r.push(<th key={"hsg" + di} style={{ position: "sticky", top: 36, zIndex: 20, width: 10, padding: 0, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 4 }} />);
     }
     return r;
   }
@@ -1096,7 +1096,7 @@ function Inner() {
           </colgroup>
           <thead>
             <tr>
-              <th className="week-nav" rowSpan={2} style={{ position: "sticky", top: 0, left: 0, zIndex: 30, background: t.bg, border: "none", padding: "4px 6px", verticalAlign: "middle" }}>
+              <th className="week-nav" rowSpan={2} style={{ position: "sticky", top: 0, left: 0, zIndex: 30, background: dark ? "rgba(9,9,11,0.85)" : "rgba(245,245,249,0.85)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "none", padding: "4px 6px", verticalAlign: "middle" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
                   <button onClick={function() { setWk(addD(wk, -7)); }} style={B({ padding: "3px 6px", fontSize: 11 })}>‹</button>
                   <div style={{ textAlign: "center", flex: 1, minWidth: 0 }}>
