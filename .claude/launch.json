@@ -2,11 +2,11 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "planovacka-client",
+      "name": "planovacka-dev",
       "runtimeExecutable": "/Users/vasylrusyn/local/node/bin/npx",
-      "runtimeArgs": ["vite", "--host"],
+      "runtimeArgs": ["concurrently", "\"cd server && node index.js\"", "\"cd client && npx vite --host\""],
       "port": 5173,
-      "cwd": "/Users/vasylrusyn/Desktop/planovacka/client"
+      "cwd": "/Users/vasylrusyn/Desktop/planovacka"
     }
   ]
 }

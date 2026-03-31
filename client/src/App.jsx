@@ -228,14 +228,33 @@ function Inner() {
   const [saveStatus, setSaveStatus] = useState(""); // "", "saving", "saved"
   const saveTimer = useRef(null);
   const isLoadingRef = useRef(false);
+  const lastUpdatedAt = useRef(null);
+  const senderIdRef = useRef(Math.random().toString(36).slice(2, 10));
 
   // Load schedule from backend when week changes
   useEffect(function() {
     isLoadingRef.current = true;
     fetch(API + "/schedule/" + w)
       .then(function(r) { return r.json(); })
-      .then(function(d) { setCs(d.data || {}); isLoadingRef.current = false; })
+      .then(function(d) { setCs(d.data || {}); lastUpdatedAt.current = d.updated_at || null; isLoadingRef.current = false; })
       .catch(function() { isLoadingRef.current = false; });
+  }, [w]);
+
+  // SSE: listen for live updates from other users
+  useEffect(function() {
+    var es = new EventSource(API + "/schedule/live/" + w + "?sid=" + senderIdRef.current);
+    es.onmessage = function(e) {
+      try {
+        var d = JSON.parse(e.data);
+        if (d.updated_at && d.updated_at !== lastUpdatedAt.current) {
+          isLoadingRef.current = true;
+          setCs(d.data || {});
+          lastUpdatedAt.current = d.updated_at;
+          isLoadingRef.current = false;
+        }
+      } catch(err) {}
+    };
+    return function() { es.close(); };
   }, [w]);
 
   // Load employees from backend on mount
@@ -273,8 +292,9 @@ function Inner() {
       fetch(API + "/schedule/" + w, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ data: cells }),
-      }).then(function() { setSaveStatus("saved"); setTimeout(function() { setSaveStatus(""); }, 1500); })
+        body: JSON.stringify({ data: cells, senderId: senderIdRef.current }),
+      }).then(function(r) { return r.json(); })
+        .then(function(d) { if (d.updated_at) lastUpdatedAt.current = d.updated_at; setSaveStatus("saved"); setTimeout(function() { setSaveStatus(""); }, 1500); })
         .catch(function() { setSaveStatus(""); });
     }, 800);
     return function() { if (saveTimer.current) clearTimeout(saveTimer.current); };
@@ -375,7 +395,7 @@ function Inner() {
           push(); tg.forEach(function(id) { sC(id, null); });
         }
       }
-      if (e.key === "Escape") { setSel(null); setEdC(null); setFoc(null); setMSel(new Set()); setCtx(null); setSubSel(null); setChipEdit(null); }
+      if (e.key === "Escape") { setSel(null); setEdC(null); setEdMergedIds(null); setFoc(null); setMSel(new Set()); setCtx(null); setSubSel(null); setChipEdit(null); }
     }
     window.addEventListener("keydown", h);
     return function() { window.removeEventListener("keydown", h); };
@@ -517,8 +537,8 @@ function Inner() {
       return { cl: m ? m.n : "", co: m ? m.c : "#94A3B8", tk: p };
     });
     // Update all merged slots so they stay merged
+    push();
     if (edMergedIds) {
-      push();
       edMergedIds.forEach(function(mid) { sC(mid, JSON.parse(JSON.stringify(items))); });
     } else {
       sC(edC, items);
@@ -540,6 +560,7 @@ function Inner() {
       if (i !== chipEdit.ci) return item;
       return { cl: m ? m.n : item.cl, co: m ? m.c : item.co, tk: tx };
     });
+    push();
     sC(chipEdit.id, updated);
     setChipEdit(null); setChipEditTxt("");
   }
@@ -812,7 +833,7 @@ function Inner() {
           </div>
         ) : ed ? (
           <input autoFocus value={edT} onChange={function(e) { setEdT(e.target.value); }} onBlur={commit}
-            onKeyDown={function(e) { if (e.key === "Enter") commit(); if (e.key === "Escape") { setEdC(null); setEdT(""); } }}
+            onKeyDown={function(e) { if (e.key === "Enter") commit(); if (e.key === "Escape") { setEdC(null); setEdT(""); setEdMergedIds(null); } }}
             style={{ width: "100%", boxSizing: "border-box", background: t.aB, border: "1px solid " + t.ac + "60", borderRadius: 10, padding: "6px 8px", color: t.tx, fontSize: 10, fontFamily: "inherit", outline: "none" }} />
         ) : hasContent ? (
           <div style={{ display: "flex", flexDirection: "column", gap: items.length > 1 ? 2 : 0, padding: items.length > 1 ? 2 : 0, height: "100%" }}>
@@ -878,7 +899,7 @@ function Inner() {
                     color: hol ? t.t4 : ho ? c.co + "90" : c.co,
                     border: chipSel
                       ? "2px solid " + c.co
-                      : ho ? "1px dashed rgba(" + rg(c.co) + ",0.3)" : "1px solid rgba(" + rg(c.co) + "," + t.chB + ")",
+                      : ho ? "2px dashed rgba(" + rg(c.co) + ",0.3)" : "2px solid rgba(" + rg(c.co) + "," + t.chB + ")",
                     boxShadow: chipSel
                       ? "0 0 0 2px rgba(" + rg(c.co) + ",0.15)"
                       : "none",
@@ -1001,7 +1022,7 @@ function Inner() {
         </div>
 
         <div style={{ display: "flex", gap: 2, alignItems: "center", marginLeft: "auto" }}>
-          <button onClick={function() { setViewMode(viewMode === "normal" ? "capacity" : "normal"); }} style={B({ padding: "5px 8px", background: viewMode === "capacity" ? t.aB : undefined, color: viewMode === "capacity" ? t.aT : t.t3 })} title={viewMode === "capacity" ? "Grid pohled" : "Kapacitni pohled"}>
+          <button onClick={function() { setViewMode(viewMode === "normal" ? "capacity" : "normal"); }} style={B({ padding: "5px 8px", background: viewMode === "capacity" ? t.aB : t.sf, color: viewMode === "capacity" ? t.aT : t.t3 })} title={viewMode === "capacity" ? "Grid pohled" : "Kapacitni pohled"}>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/><rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/><rect x="1" y="9" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/><rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/></svg>
           </button>
           <button onClick={function() { setDark(!dark); }} style={B({ padding: "5px 8px" })} title={dark ? "Svetly rezim" : "Tmavy rezim"}>
@@ -1021,7 +1042,7 @@ function Inner() {
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.3"/><path d="M5 6h6M5 8h6M5 10h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
             <span style={{ fontSize: 10, fontWeight: 600 }}>{syncing ? "..." : "GCal"}</span>
           </button>
-          {saveStatus && <span style={{ fontSize: 9, color: saveStatus === "saved" ? "#22C55E" : t.t3, fontWeight: 500 }}>{saveStatus === "saving" ? "Ukládám..." : "Uloženo"}</span>}
+{/* save indicator hidden */}
         </div>
       </div>
 
