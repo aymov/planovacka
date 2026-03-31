@@ -1094,7 +1094,7 @@ function Inner() {
       <div style={{ flex: 1, overflow: "auto", padding: "0 16px 60px" }}>
         <table onMouseLeave={function() { setHoverCell(null); }} style={{ borderCollapse: "separate", borderSpacing: "2px 2px", width: "100%", minWidth: 900, tableLayout: "fixed" }}>
           <colgroup>
-            <col className="name-col" style={{ width: 140 }} />
+            <col className="name-col" style={{ width: zoomDay !== null ? 100 : 140 }} />
             {headerCols()}
           </colgroup>
           <thead>
