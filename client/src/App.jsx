@@ -942,7 +942,7 @@ function Inner() {
     var r = [];
     for (var di = 0; di < 5; di++) {
       // When zoomed: zoomed day gets 3x width, others get 0.5x
-      var cw = zoomDay !== null ? (zoomDay === di ? 60 : 10) : undefined;
+      var cw = zoomDay !== null ? (zoomDay === di ? 60 : 18) : undefined;
       r.push(<col key={"ca" + di} style={cw ? { width: cw } : undefined} />); r.push(<col key={"s1" + di} style={{ width: 1 }} />);
       r.push(<col key={"cb" + di} style={cw ? { width: cw } : undefined} />); r.push(<col key={"s2" + di} style={{ width: 1 }} />);
       r.push(<col key={"cc" + di} style={cw ? { width: cw } : undefined} />);
@@ -1094,7 +1094,7 @@ function Inner() {
       <div style={{ flex: 1, overflow: "auto", padding: "0 16px 60px" }}>
         <table onMouseLeave={function() { setHoverCell(null); }} style={{ borderCollapse: "separate", borderSpacing: "2px 2px", width: "100%", minWidth: 900, tableLayout: "fixed" }}>
           <colgroup>
-            <col className="name-col" style={{ width: zoomDay !== null ? 100 : 140 }} />
+            <col className="name-col" style={{ width: zoomDay !== null ? 60 : 140 }} />
             {headerCols()}
           </colgroup>
           <thead>
